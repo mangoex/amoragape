@@ -77,18 +77,27 @@
       box-shadow: 0 1px 0 var(--border);
     }
     .nav-logo {
-      display: flex; flex-direction: column; gap: 2px;
+      display: flex; align-items: center; gap: 0.75rem;
       text-decoration: none;
     }
+    .nav-logo img {
+      height: 48px; width: auto;
+      filter: drop-shadow(0 0 8px rgba(124,58,237,0.4));
+      transition: filter 0.3s ease;
+    }
+    .nav-logo:hover img {
+      filter: drop-shadow(0 0 14px rgba(124,58,237,0.7));
+    }
+    .nav-logo-text { display: flex; flex-direction: column; gap: 1px; }
     .nav-logo-brand {
       font-family: 'Playfair Display', serif;
-      font-size: 1.1rem; font-weight: 700; letter-spacing: 0.08em;
+      font-size: 1.05rem; font-weight: 700; letter-spacing: 0.08em;
       background: linear-gradient(90deg, var(--purple) 0%, var(--emerald-light) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
     .nav-logo-sub {
-      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
       color: var(--text-muted);
     }
     .nav-links {
@@ -647,6 +656,42 @@
       box-shadow: 0 0 0 4px rgba(124,58,237,0.1);
     }
     .cta-input::placeholder { color: var(--text-muted); }
+    .cta-contact {
+      display: flex; gap: 1.25rem; justify-content: center;
+      flex-wrap: wrap; margin-bottom: 2rem;
+    }
+    .cta-contact-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.1rem 1.75rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border); border-radius: 16px;
+      text-decoration: none; color: var(--text);
+      transition: transform 0.3s var(--transition),
+                  box-shadow 0.3s ease, border-color 0.3s ease,
+                  background 0.3s ease;
+      min-width: 280px;
+    }
+    .cta-contact-item:hover {
+      transform: translateY(-4px);
+      border-color: rgba(124,58,237,0.4);
+      background: rgba(124,58,237,0.07);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+    }
+    .cta-contact-item:last-child:hover {
+      border-color: rgba(5,150,105,0.4);
+      background: rgba(5,150,105,0.07);
+    }
+    .cta-contact-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: rgba(124,58,237,0.15);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--purple); flex-shrink: 0;
+    }
+    .cta-icon-green { background: rgba(5,150,105,0.15); color: var(--emerald-light); }
+    .cta-contact-text { display: flex; flex-direction: column; gap: 0.2rem; text-align: left; }
+    .cta-contact-label { font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+    .cta-contact-value { font-size: 0.92rem; font-weight: 500; }
+
     .cta-trust {
       display: flex; align-items: center; justify-content: center;
       gap: 1.5rem; flex-wrap: wrap;
@@ -738,8 +783,11 @@
   <!-- ═══ NAVIGATION ═══════════════════════════════════════════ -->
   <nav id="navbar">
     <a href="#" class="nav-logo">
-      <span class="nav-logo-brand">NICOMACO</span>
-      <span class="nav-logo-sub">Clínica de Cambio</span>
+      <img src="img/logo.png" alt="NICOMACO Clínica de Contacto">
+      <div class="nav-logo-text">
+        <span class="nav-logo-brand">NICÓMACO</span>
+        <span class="nav-logo-sub">Clínica de Contacto®</span>
+      </div>
     </a>
     <ul class="nav-links">
       <li><a href="#diagnostico">Diagnóstico</a></li>
@@ -1094,16 +1142,33 @@
         hacia el Amor Ágape
       </h2>
       <p class="cta-sub reveal" style="transition-delay:0.2s;">
-        Déjanos tu correo y un facilitador certificado se pondrá en
-        contacto contigo para iniciar tu diagnóstico sin costo.
+        Escríbenos o llámanos directamente. Un facilitador certificado
+        te acompañará en tu diagnóstico sin costo.
       </p>
-      <div class="cta-form reveal" style="transition-delay:0.3s;">
-        <input class="cta-input" type="email" placeholder="Tu correo electrónico" aria-label="Email">
-        <button class="btn-primary magnetic" type="button">
-          Quiero mi diagnóstico
-        </button>
+
+      <!-- Contacto directo -->
+      <div class="cta-contact reveal" style="transition-delay:0.3s;">
+        <a href="mailto:Blancaestelaangulo0@gmail.com" class="cta-contact-item magnetic">
+          <span class="cta-contact-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </span>
+          <span class="cta-contact-text">
+            <span class="cta-contact-label">Correo electrónico</span>
+            <span class="cta-contact-value">Blancaestelaangulo0@gmail.com</span>
+          </span>
+        </a>
+        <a href="https://wa.me/526671003828" target="_blank" class="cta-contact-item magnetic">
+          <span class="cta-contact-icon cta-icon-green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2C6.486 2 2 6.486 2 12.004c0 1.77.463 3.433 1.27 4.888L2.05 21.95l5.226-1.198A9.953 9.953 0 0 0 12.004 22c5.518 0 9.996-4.478 9.996-9.996S17.522 2 12.004 2zm0 18.172a8.164 8.164 0 0 1-4.162-1.14l-.299-.177-3.1.712.733-3.019-.195-.308A8.163 8.163 0 0 1 3.828 12c0-4.508 3.668-8.172 8.176-8.172 4.508 0 8.168 3.664 8.168 8.172 0 4.512-3.66 8.172-8.168 8.172z"/></svg>
+          </span>
+          <span class="cta-contact-text">
+            <span class="cta-contact-label">WhatsApp / Teléfono</span>
+            <span class="cta-contact-value">+52 1 667 100 3828</span>
+          </span>
+        </a>
       </div>
-      <div class="cta-trust reveal" style="transition-delay:0.4s;">
+
+      <div class="cta-trust reveal" style="transition-delay:0.45s;">
         <span class="cta-trust-item">
           <span class="cta-trust-icon">🔒</span> Información confidencial
         </span>
@@ -1119,12 +1184,23 @@
 
   <!-- ═══ FOOTER ═════════════════════════════════════════════════ -->
   <footer>
-    <div class="footer-brand">NICOMACO · Clínica de Cambio</div>
+    <img src="img/logo.png" alt="NICÓMACO" style="height:64px;width:auto;opacity:0.85;margin-bottom:0.5rem;">
+    <div class="footer-brand">NICÓMACO · Clínica de Contacto®</div>
+    <div style="display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;margin:0.75rem 0;">
+      <a href="mailto:Blancaestelaangulo0@gmail.com" style="color:var(--text-muted);font-size:0.8rem;text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.3s ease;" onmouseover="this.style.color='#C4B5FD'" onmouseout="this.style.color='rgba(248,248,255,0.5)'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Blancaestelaangulo0@gmail.com
+      </a>
+      <a href="https://wa.me/526671003828" target="_blank" style="color:var(--text-muted);font-size:0.8rem;text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.3s ease;" onmouseover="this.style.color='#6EE7B7'" onmouseout="this.style.color='rgba(248,248,255,0.5)'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2C6.486 2 2 6.486 2 12.004c0 1.77.463 3.433 1.27 4.888L2.05 21.95l5.226-1.198A9.953 9.953 0 0 0 12.004 22c5.518 0 9.996-4.478 9.996-9.996S17.522 2 12.004 2zm0 18.172a8.164 8.164 0 0 1-4.162-1.14l-.299-.177-3.1.712.733-3.019-.195-.308A8.163 8.163 0 0 1 3.828 12c0-4.508 3.668-8.172 8.176-8.172 4.508 0 8.168 3.664 8.168 8.172 0 4.512-3.66 8.172-8.168 8.172z"/></svg>
+        +52 1 667 100 3828
+      </a>
+    </div>
     <p class="footer-reg">
       Programa "Cero Amor vs Amor Ágape" · Herramientas registradas ante INDAUTOR<br>
       Reg. 03-2025-013101400100-01 · Todos los derechos reservados
     </p>
-    <p class="footer-copy">© 2025 NICOMACO · Diseñado con propósito</p>
+    <p class="footer-copy">© 2025 NICÓMACO · Diseñado con propósito</p>
   </footer>
 
   <!-- ═══════════════════ JAVASCRIPT ════════════════════════════ -->
