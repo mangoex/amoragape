@@ -1,31 +1,65 @@
 import React, { useState, useEffect } from 'react';
-import { Search, UserPlus, MoreVertical, Shield } from 'lucide-react';
+import { Search, UserPlus, MoreVertical, Shield, X } from 'lucide-react';
 
 export function UsersManager() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'CLIENT' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const fetchUsers = async () => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch('/api/users', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setUsers(data);
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const token = localStorage.getItem('adminToken');
-        const response = await fetch('/api/users', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setUsers(data);
-        }
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchUsers();
   }, []);
+
+  const handleCreateUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+      if (res.ok) {
+        setShowModal(false);
+        setFormData({ name: '', email: '', password: '', role: 'CLIENT' });
+        fetchUsers();
+      } else {
+        const errorData = await res.json();
+        alert(errorData.error || 'Error al crear usuario');
+      }
+    } catch(e) {
+      console.error(e);
+      alert('Fallo de red al crear usuario');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="p-8">
@@ -34,7 +68,10 @@ export function UsersManager() {
           <h2 className="text-2xl font-playfair font-bold text-[#07070F]">Directorio de Usuarios</h2>
           <p className="text-gray-500 mt-1">Administra los accesos de pacientes y personal de la clínica.</p>
         </div>
-        <button className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
+        <button 
+          onClick={() => setShowModal(true)}
+          className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors"
+        >
           <UserPlus size={18} />
           Registrar Usuario
         </button>
@@ -96,6 +133,84 @@ export function UsersManager() {
           </tbody>
         </table>
       </div>
+
+      {/* Modal Crear Usuario */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
+            <div className="flex justify-between items-center p-6 border-b border-gray-100">
+              <h3 className="text-xl font-bold">Registrar Nuevo Usuario</h3>
+              <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-700">
+                <X size={20} />
+              </button>
+            </div>
+            <form onSubmit={handleCreateUser} className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>
+                <input 
+                  required
+                  type="text" 
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7C3AED] focus:border-[#7C3AED] outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                <input 
+                  required
+                  type="email" 
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7C3AED] focus:border-[#7C3AED] outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Rol</label>
+                <select 
+                  value={formData.role}
+                  onChange={(e) => setFormData({...formData, role: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7C3AED] focus:border-[#7C3AED] outline-none"
+                >
+                  <option value="CLIENT">Paciente (Cliente)</option>
+                  <option value="ADMIN">Administrador (Clínico)</option>
+                </select>
+              </div>
+              
+              {formData.role === 'ADMIN' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                  <input 
+                    required
+                    type="password" 
+                    value={formData.password}
+                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7C3AED] focus:border-[#7C3AED] outline-none"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Los pacientes no requieren contraseña en el simulador inicial.</p>
+                </div>
+              )}
+
+              <div className="pt-4 flex justify-end gap-3">
+                <button 
+                  type="button" 
+                  onClick={() => setShowModal(false)}
+                  className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors font-medium"
+                >
+                  Cancelar
+                </button>
+                <button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="px-4 py-2 bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-lg transition-colors font-medium disabled:opacity-70"
+                >
+                  {isSubmitting ? 'Registrando...' : 'Guardar Usuario'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

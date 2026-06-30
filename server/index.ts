@@ -99,15 +99,55 @@ app.get('/api/surveys/:id', async (req, res) => {
   }
 });
 
-// Create survey
-app.post('/api/surveys', async (req, res) => {
+// Create survey with default structure
+app.post('/api/surveys', verifyToken, async (req, res) => {
   try {
     const { name, description } = req.body;
     const survey = await prisma.survey.create({
-      data: { name, description },
+      data: { 
+        name, 
+        description,
+        adaptiveRules: "Si Dom 1 < 3 pts → Saltar Dom 2 y pasar a Dom 3",
+        levels: {
+          create: [
+            {
+              name: 'ZONA VERDE',
+              minScore: 0,
+              maxScore: 30,
+              description: 'Posees una base sólida de respeto. Requiere un enfoque de consolidación y nutrición de tu Amor Ágape.',
+              clinicalApproach: 'Consolidación del amor propio incondicional y prevención primaria.'
+            },
+            {
+              name: 'ZONA AMARILLA',
+              minScore: 31,
+              maxScore: 75,
+              description: 'Alerta preventiva. Hay presencia de conductas de descuido emocional y rigidez cognitiva autopunitiva.',
+              clinicalApproach: 'Intervención temprana cognitivo-conductual y psicoeducación de autocompasión.'
+            },
+            {
+              name: 'ZONA ROJA',
+              minScore: 76,
+              maxScore: 130,
+              description: 'Riesgo a tu integridad psicofísica. Ejerces niveles elevados de castigo y coacción interna.',
+              clinicalApproach: 'Reestructuración cognitiva profunda, terapia de aceptación y compromiso (ACT), acompañamiento psicoterapéutico.'
+            },
+            {
+              name: 'ZONA CRÍTICA',
+              minScore: 131,
+              maxScore: 186,
+              description: 'Tu seguridad y bienestar psicológico están en una fase extremadamente vulnerable.',
+              clinicalApproach: 'Protocolo de prevención de conducta de riesgo inminente, desactivación de crisis agudas.'
+            }
+          ]
+        }
+      },
+      include: {
+        levels: true
+      }
     });
     res.json(survey);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Failed to create survey' });
   }
 });
@@ -122,6 +162,37 @@ app.get('/api/users', verifyToken, async (req, res) => {
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch users' });
+  }
+});
+
+app.post('/api/users', verifyToken, async (req, res) => {
+  try {
+    const { name, email, password, role } = req.body;
+    
+    // Check if user exists
+    const existing = await prisma.user.findUnique({ where: { email } });
+    if (existing) {
+      return res.status(400).json({ error: 'El correo ya está registrado.' });
+    }
+
+    let hashedPassword = null;
+    if (role === 'ADMIN' && password) {
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
+
+    const newUser = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        role: role === 'ADMIN' ? 'ADMIN' : 'CLIENT'
+      }
+    });
+
+    res.json({ id: newUser.id, name: newUser.name, email: newUser.email, role: newUser.role, createdAt: newUser.createdAt });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to create user' });
   }
 });
 
