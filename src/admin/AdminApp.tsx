@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   FileText, 
@@ -13,9 +13,33 @@ import { Dashboard } from './pages/Dashboard';
 import { SurveysManager } from './pages/SurveysManager';
 import { ResultsViewer } from './pages/ResultsViewer';
 import { UsersManager } from './pages/UsersManager';
+import { Login } from './pages/Login';
 
 export function AdminApp() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const token = localStorage.getItem('adminToken');
+
+  useEffect(() => {
+    if (!token && location.pathname !== '/admin/login') {
+      navigate('/admin/login');
+    }
+  }, [token, location.pathname, navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminUser');
+    navigate('/');
+  };
+
+  if (!token) {
+    return (
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<Login />} />
+      </Routes>
+    );
+  }
 
   return (
     <div className="flex h-screen bg-[#F8F8FF] text-[#07070F] font-inter">
@@ -53,11 +77,11 @@ export function AdminApp() {
 
         <div className="p-4 border-t border-gray-100">
           <button 
-            onClick={() => navigate('/')}
-            className="flex items-center gap-3 px-3 py-2 w-full text-left rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-3 py-2 w-full text-left rounded-lg text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
           >
             <LogOut size={20} />
-            Salir (Ir a App)
+            Salir (Cerrar Sesión)
           </button>
         </div>
       </aside>

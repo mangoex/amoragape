@@ -1,9 +1,27 @@
 import { PrismaClient } from '@prisma/client';
-
+import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
   console.log('Seeding Cero Amor Survey Database...');
+
+  // Create Admin User
+  const adminEmail = 'admin@amoragape.com';
+  const existingAdmin = await prisma.user.findUnique({ where: { email: adminEmail } });
+  if (!existingAdmin) {
+    const hashedPassword = await bcrypt.hash('admin123', 10);
+    await prisma.user.create({
+      data: {
+        email: adminEmail,
+        name: 'Administrador Principal',
+        password: hashedPassword,
+        role: 'ADMIN',
+      }
+    });
+    console.log('Admin user created.');
+  } else {
+    console.log('Admin user already exists.');
+  }
 
   // Create the main survey with adaptive rules
   const survey = await prisma.survey.create({

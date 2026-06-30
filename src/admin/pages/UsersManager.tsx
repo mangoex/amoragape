@@ -3,13 +3,29 @@ import { Search, UserPlus, MoreVertical, Shield } from 'lucide-react';
 
 export function UsersManager() {
   const [users, setUsers] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setUsers([
-      { id: '1', name: 'Administrador Principal', email: 'admin@amoragape.com', role: 'ADMIN', created: '2026-01-10' },
-      { id: '2', name: 'Ana G.', email: 'ana.g@example.com', role: 'CLIENT', created: '2026-06-30' },
-      { id: '3', name: 'Carlos R.', email: 'carlos.r@example.com', role: 'CLIENT', created: '2026-06-29' },
-    ]);
+    const fetchUsers = async () => {
+      try {
+        const token = localStorage.getItem('adminToken');
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+        const response = await fetch(`${apiUrl}/api/users`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setUsers(data);
+        }
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUsers();
   }, []);
 
   return (
@@ -52,9 +68,9 @@ export function UsersManager() {
               <tr key={user.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 font-medium text-[#07070F] flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-[#E5E7EB] flex items-center justify-center text-sm font-bold text-gray-600">
-                    {user.name.charAt(0)}
+                    {user.name ? user.name.charAt(0).toUpperCase() : '?'}
                   </div>
-                  {user.name}
+                  {user.name || 'Sin nombre'}
                 </td>
                 <td className="px-6 py-4 text-gray-600">{user.email}</td>
                 <td className="px-6 py-4">
@@ -68,7 +84,9 @@ export function UsersManager() {
                     </span>
                   )}
                 </td>
-                <td className="px-6 py-4 text-gray-500 text-sm">{user.created}</td>
+                <td className="px-6 py-4 text-gray-500 text-sm">
+                  {new Date(user.createdAt).toLocaleDateString()}
+                </td>
                 <td className="px-6 py-4 text-right">
                   <button className="text-gray-400 hover:text-gray-700 transition-colors">
                     <MoreVertical size={18} />

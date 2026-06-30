@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
@@ -24,6 +26,44 @@ app.use(express.static(path.join(__dirname, '../dist')));
 // Basic health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date() });
+});
+
+// --- AUTHENTICATION ---
+
+const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-amor-agape-key-123';
+
+const verifyToken = (req: any, res: any, next: any) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ error: 'Acceso denegado' });
+  
+  const token = authHeader.split(' ')[1];
+  try {
+    const verified = jwt.verify(token, JWT_SECRET);
+    req.user = verified;
+    next();
+  } catch (error) {
+    res.status(400).json({ error: 'Token inválido' });
+  }
+};
+
+app.post('/api/auth/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user || !user.password) {
+      return res.status(401).json({ error: 'Credenciales inválidas' });
+    }
+    
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) {
+      return res.status(401).json({ error: 'Credenciales inválidas' });
+    }
+
+    const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '24h' });
+    res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role } });
+  } catch (error) {
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
 });
 
 // --- SURVEYS API ---
@@ -70,7 +110,7 @@ app.post('/api/surveys', async (req, res) => {
 
 // --- USERS API ---
 
-app.get('/api/users', async (req, res) => {
+app.get('/api/users', verifyToken, async (req, res) => {
   try {
     const users = await prisma.user.findMany({
       select: { id: true, email: true, name: true, role: true, createdAt: true },
@@ -83,7 +123,7 @@ app.get('/api/users', async (req, res) => {
 
 // --- RESULTS API ---
 
-app.get('/api/results', async (req, res) => {
+app.get('/api/results', verifyToken, async (req, res) => {
   try {
     const results = await prisma.surveyResult.findMany({
       include: {
