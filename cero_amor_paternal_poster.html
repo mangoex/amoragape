@@ -17,10 +17,11 @@
       --text:        #F8F8FF;
       --text-muted:  rgba(248, 248, 255, 0.5);
       
-      --verde:       #059669;
-      --amarillo:    #D97706;
-      --rojo:        #DC2626;
-      --critico:     #7F1D1D;
+      --alerta:      #D97706;
+      --psico:       #EA580C;
+      --roja:        #DC2626;
+      --grave:       #991B1B;
+      --extrema:     #EF4444;
     }
     body {
       background: var(--bg);
@@ -147,10 +148,16 @@
       color: var(--text-muted);
       line-height: 1.4;
     }
-    .alert-block.verde-alert .alert-title { color: var(--verde); }
-    .alert-block.amarillo-alert .alert-title { color: var(--amarillo); }
-    .alert-block.rojo-alert .alert-title { color: var(--rojo); }
-    .alert-block.critico-alert .alert-title { color: #FFAAAA; }
+    .alert-block.alerta-alert .alert-title { color: var(--alerta); }
+    .alert-block.psico-alert .alert-title { color: var(--psico); }
+    .alert-block.rojo-alert .alert-title { color: var(--roja); }
+    .alert-block.grave-alert .alert-title { color: #FCA5A5; }
+    .alert-block.extrema-alert .alert-title { color: var(--extrema); font-weight: 900; text-transform: uppercase; animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
 
     /* Right Scale Column */
     .scale-column {
@@ -199,22 +206,25 @@
       line-height: 1.4;
     }
 
-    /* Colors and borders by zone */
-    .scale-row.zone-verde { border-left: 4px solid var(--verde); }
-    .scale-row.zone-verde .scale-num { background: var(--verde); box-shadow: 0 0 10px rgba(5, 150, 105, 0.3); }
-    .scale-row.zone-verde .scale-name { color: #34D399; }
+    .scale-row.zone-alerta { border-left: 4px solid var(--alerta); }
+    .scale-row.zone-alerta .scale-num { background: var(--alerta); box-shadow: 0 0 10px rgba(217, 119, 6, 0.3); }
+    .scale-row.zone-alerta .scale-name { color: #FBBF24; }
     
-    .scale-row.zone-amarilla { border-left: 4px solid var(--amarillo); }
-    .scale-row.zone-amarilla .scale-num { background: var(--amarillo); box-shadow: 0 0 10px rgba(217, 119, 6, 0.3); }
-    .scale-row.zone-amarilla .scale-name { color: #FBBF24; }
+    .scale-row.zone-psico { border-left: 4px solid var(--psico); }
+    .scale-row.zone-psico .scale-num { background: var(--psico); box-shadow: 0 0 10px rgba(234, 88, 12, 0.3); }
+    .scale-row.zone-psico .scale-name { color: #FB923C; }
     
-    .scale-row.zone-roja { border-left: 4px solid var(--rojo); }
-    .scale-row.zone-roja .scale-num { background: var(--rojo); box-shadow: 0 0 10px rgba(220, 38, 38, 0.3); }
+    .scale-row.zone-roja { border-left: 4px solid var(--roja); }
+    .scale-row.zone-roja .scale-num { background: var(--roja); box-shadow: 0 0 10px rgba(220, 38, 38, 0.3); }
     .scale-row.zone-roja .scale-name { color: #F87171; }
     
-    .scale-row.zone-critica { border-left: 4px solid var(--critico); background: rgba(127, 29, 29, 0.08); }
-    .scale-row.zone-critica .scale-num { background: var(--critico); box-shadow: 0 0 10px rgba(127, 29, 29, 0.5); }
-    .scale-row.zone-critica .scale-name { color: #FFAAAA; }
+    .scale-row.zone-grave { border-left: 4px solid var(--grave); background: rgba(153, 27, 27, 0.08); }
+    .scale-row.zone-grave .scale-num { background: var(--grave); box-shadow: 0 0 10px rgba(153, 27, 27, 0.5); }
+    .scale-row.zone-grave .scale-name { color: #FCA5A5; }
+    
+    .scale-row.zone-extrema { border-left: 4px solid #EF4444; background: rgba(0, 0, 0, 0.6); border-top: 1px solid rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    .scale-row.zone-extrema .scale-num { background: #000; color: #EF4444; border: 1px solid #EF4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+    .scale-row.zone-extrema .scale-name { color: #EF4444; font-weight: 850; text-transform: uppercase; letter-spacing: 0.02em; }
 
     /* ─── FOOTER ───────────────────────────────────────────────── */
     footer {
@@ -264,11 +274,11 @@
       .poster-container { box-shadow: none; border: none; padding: 0; width: 100%; max-width: 100%; background: white; }
       .scale-row { page-break-inside: avoid; border: 1px solid #ddd; background: white !important; color: black; }
       .print-btn { display: none; }
-      .scale-num { color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .scale-row.zone-verde { border-left: 6px solid var(--verde) !important; }
-      .scale-row.zone-amarilla { border-left: 6px solid var(--amarillo) !important; }
-      .scale-row.zone-roja { border-left: 6px solid var(--rojo) !important; }
-      .scale-row.zone-critica { border-left: 6px solid var(--critico) !important; }
+      .scale-row.zone-alerta { border-left: 6px solid var(--alerta) !important; }
+      .scale-row.zone-psico { border-left: 6px solid var(--psico) !important; }
+      .scale-row.zone-roja { border-left: 6px solid var(--roja) !important; }
+      .scale-row.zone-grave { border-left: 6px solid var(--grave) !important; }
+      .scale-row.zone-extrema { border-left: 6px solid var(--extrema) !important; background: #111 !important; color: white !important; }
     }
   </style>
 </head>
@@ -294,24 +304,29 @@
       
       <!-- Left side alerts -->
       <div class="alerts-column">
-        <div class="alert-block verde-alert" style="margin-top: 1rem;">
-          <div class="alert-title">¡Date cuenta!</div>
-          <div class="alert-desc">Señales tempranas de control, desprestigio y alienación inicial en la relación paterno-filial.</div>
+        <div class="alert-block alerta-alert" style="margin-top: 1rem;">
+          <div class="alert-title">¡Alerta!</div>
+          <div class="alert-desc">Comentarios despectivos, desacreditación y uso de los hijos para manipular o enviar mensajes.</div>
         </div>
         
-        <div class="alert-block amarillo-alert" style="margin-top: 14rem;">
-          <div class="alert-title">¡Reacciona!</div>
-          <div class="alert-desc">Hostigamiento económico, sabotaje a la rutina escolar/médica y obstrucción activa del vínculo de la madre.</div>
+        <div class="alert-block psico-alert" style="margin-top: 10rem;">
+          <div class="alert-title">¡Psicológica y Emocional!</div>
+          <div class="alert-desc">Amenazas de quitar la custodia, inventar historias y generar alienación afectiva activa en los hijos.</div>
         </div>
         
-        <div class="alert-block rojo-alert" style="margin-top: 18rem;">
-          <div class="alert-title">¡Peligro!</div>
-          <div class="alert-desc">Violencia psicológica grave, campañas de alienación coordinadas y amenazas directas de sustracción.</div>
+        <div class="alert-block rojo-alert" style="margin-top: 12rem;">
+          <div class="alert-title">¡Institucional y Económica!</div>
+          <div class="alert-desc">Denuncias falsas, retención de documentos y condicionamiento del apoyo económico o pensiones.</div>
         </div>
         
-        <div class="alert-block critico-alert" style="margin-top: 20rem; margin-bottom: 2rem;">
-          <div class="alert-title">¡Ayuda urgente!</div>
-          <div class="alert-desc">Agresiones físicas severas, abuso, secuestro parental o riesgo letal (filicidio) para los hijos.</div>
+        <div class="alert-block grave-alert" style="margin-top: 12rem;">
+          <div class="alert-title">¡Violencia Grave!</div>
+          <div class="alert-desc">Sustracción parental, retención de menores y amenazas de daño físico instrumental.</div>
+        </div>
+        
+        <div class="alert-block extrema-alert" style="margin-top: 12rem; margin-bottom: 2rem;">
+          <div class="alert-title">¡Violencia Extrema!</div>
+          <div class="alert-desc">Secuestro parental prolongado, tortura, abuso sexual, tentativa de feminicidio o filicidio vicario.</div>
         </div>
       </div>
 
@@ -325,72 +340,61 @@
     <!-- ═══ FOOTER ═══ -->
     <footer>
       <p>©2026 Blanca Estela Angulo López · Todos los Derechos Reservados</p>
-      <p>Clínica de Contacto NICÓMACO® · Programa de Apoyo Psicológico y Registro de Herramientas Compilatorias</p>
-      <p>Reg. No. 03-2026-06101140-01 (Cero Amor Paternal)</p>
-      <button class="print-btn" onclick="window.print()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:0.3rem;"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
-        Imprimir Póster
-      </button>
-    </footer>
-
-  </div>
-
-  <script>
-    // 50 levels data compiled vertically
-    const levels = [
-      { num: 1, zone: 'verde', name: "Hablar mal / Descalificar", desc: "Hablar de manera despectiva, con insultos o descalificaciones de la madre en presencia de los hijos." },
-      { num: 2, zone: 'verde', name: "Cuestionar autoridad", desc: "Desautorizar las decisiones de crianza, límites o reglas de la madre ante los menores." },
-      { num: 3, zone: 'verde', name: "Ridiculizar hábitos", desc: "Burlarse destructivamente de la profesión, pasatiempos o hábitos de la madre frente a los niños." },
-      { num: 4, zone: 'verde', name: "Sabotear comunicación", desc: "Ignorar, cortar o limitar las llamadas o videollamadas de la madre con los hijos durante las visitas." },
-      { num: 5, zone: 'verde', name: "Fomentar desobediencia", desc: "Incitar o aplaudir que los hijos desobedezcan o falten al respeto a la madre." },
-      { num: 6, zone: 'verde', name: "Espionaje / Interrogatorios", desc: "Interrogar a los hijos sobre la vida privada, relaciones sentimentales o finanzas de la madre." },
-      { num: 7, zone: 'verde', name: "Hijos como mensajeros", desc: "Utilizar a los hijos para transmitir quejas o advertencias hostiles a la madre." },
-      { num: 8, zone: 'verde', name: "Culpabilizar por ruptura", desc: "Hacer creer a los hijos que la madre es la única culpable del divorcio o separación." },
-      { num: 9, zone: 'verde', name: "Castigo de afecto", desc: "Mostrar enojo o culpa a los hijos cuando expresan cariño o deseo de estar con la madre." },
-      { num: 10, zone: 'verde', name: "Comparación despectiva", desc: "Comparar negativamente a la madre con nuevas parejas u otros familiares paternos." },
-      { num: 11, zone: 'verde', name: "Ocultar información básica", desc: "No informar sobre eventos, reuniones escolares o cuestiones médicas de los hijos." },
-      { num: 12, zone: 'verde', name: "Desvalorizar cuidados", desc: "Decir a los hijos que los alimentos, ropa o atención de la madre son malos o dañinos." },
+      <p    const levels = [
+      { num: 1, zone: 'alerta', name: "Hablar mal de la madre", desc: "Hablar mal de la madre frente a los hijos." },
+      { num: 2, zone: 'alerta', name: "Desacreditar figura materna", desc: "Ridiculizar o desacreditar la figura materna." },
+      { num: 3, zone: 'alerta', name: "Hijos como mensajeros", desc: "Utilizar a los hijos para enviar mensajes." },
+      { num: 4, zone: 'alerta', name: "Interrogar sobre vida privada", desc: "Interrogar a los hijos sobre la vida privada de la madre." },
+      { num: 5, zone: 'alerta', name: "Generar culpa por convivir", desc: "Hacer sentir culpables a los hijos por convivir con ella." },
+      { num: 6, zone: 'alerta', name: "Comparaciones negativas", desc: "Comparar constantemente a la madre de forma negativa." },
+      { num: 7, zone: 'alerta', name: "Ignorar afecto materno", desc: "Ignorar las emociones de los hijos cuando expresan afecto hacia la madre." },
+      { num: 8, zone: 'alerta', name: "Manipular recuerdos", desc: "Manipular recuerdos para generar rechazo." },
+      { num: 9, zone: 'alerta', name: "Exigir lealtad exclusiva", desc: "Exigir lealtad exclusiva." },
+      { num: 10, zone: 'alerta', name: "Premiar conductas de rechazo", desc: "Premiar conductas de rechazo hacia la madre." },
       
-      { num: 13, zone: 'amarilla', name: "Incumplimiento alimentario", desc: "Dejar de pagar la pensión alimenticia acordada para asfixiar económicamente a la madre." },
-      { num: 14, zone: 'amarilla', name: "Justificación económica falsa", desc: "Decirle a los hijos que no tienen cosas porque la madre se gasta el dinero o les roba." },
-      { num: 15, zone: 'amarilla', name: "Desestabilización horaria", desc: "Incumplir con los horarios de entrega y recogida de los hijos para alterar la vida de la madre." },
-      { num: 16, zone: 'amarilla', name: "Interferencia en citas", desc: "Sabotear citas médicas, terapias o actividades escolares programadas por la madre." },
-      { num: 17, zone: 'amarilla', name: "Enfermedades simuladas", desc: "Manipular a los hijos para que finjan estar enfermos y no regresar con la madre tras la visita." },
-      { num: 18, zone: 'amarilla', name: "Competencia material desleal", desc: "Ofrecer regalos costosos o promesas desmedidas para desautorizar la disciplina de la madre." },
-      { num: 19, zone: 'amarilla', name: "Chantaje emocional de soledad", desc: "Hacerse la víctima diciéndole a los hijos que se enfermará o estará triste si regresan con su madre." },
-      { num: 20, zone: 'amarilla', name: "Imposición de secretos", desc: "Obligar a los hijos a guardarle secretos sobre lo que pasa en la casa del padre." },
-      { num: 21, zone: 'amarilla', name: "Boicot a festividades", desc: "Retener a los hijos en celebraciones clave (cumpleaños de la madre, Día de las Madres) para impedir festejos." },
-      { num: 22, zone: 'amarilla', name: "Condicionamiento financiero", desc: "Condicionar el pago de colegiaturas o salud de los hijos a cambio de exigencias hacia la madre." },
-      { num: 23, zone: 'amarilla', name: "Amenazas de custodia", desc: "Amenazar constantemente a la madre con arrebatarle judicialmente la custodia de los hijos." },
-      { num: 24, zone: 'amarilla', name: "Testimonios falsos inducidos", desc: "Inducir o presionar a los hijos para que den declaraciones falsas contra la madre." },
-      { num: 25, zone: 'amarilla', name: "Bloqueo terapéutico", desc: "Oponerse o no firmar los consentimientos para que los hijos reciban terapia o apoyo psicológico." },
+      { num: 11, zone: 'psico', name: "Amenazar con quitar custodia", desc: "Amenazar con quitar la custodia." },
+      { num: 12, zone: 'psico', name: "Amenazar con impedir visitas", desc: "Amenazar con impedir las convivencias." },
+      { num: 13, zone: 'psico', name: "Inventar historias dañinas", desc: "Inventar historias para dañar la imagen materna." },
+      { num: 14, zone: 'psico', name: "Fomentar miedo a la madre", desc: "Fomentar miedo hacia la madre." },
+      { num: 15, zone: 'psico', name: "Alienación afectiva", desc: "Generar alienación afectiva." },
+      { num: 16, zone: 'psico', name: "Hijos como espías", desc: "Utilizar a los hijos como espías." },
+      { num: 17, zone: 'psico', name: "Impedir comunicación", desc: "Impedir llamadas o comunicación." },
+      { num: 18, zone: 'psico', name: "Ocultar información básica", desc: "Ocultar información escolar o médica." },
+      { num: 19, zone: 'psico', name: "Obligar a elegir bando", desc: "Manipular emocionalmente a los hijos para elegir un bando." },
+      { num: 20, zone: 'psico', name: "Promover desprecio u odio", desc: "Promover odio, resentimiento o desprecio hacia la madre." },
       
-      { num: 26, zone: 'roja', name: "Retención de documentos", desc: "Ocultar o retener actas oficiales o pasaportes de los hijos para limitar trámites de la madre." },
-      { num: 27, zone: 'roja', name: "Inculcar temor al abandono", desc: "Inculcar miedo a los hijos diciéndoles que la madre los va a abandonar o que no los quiere." },
-      { num: 28, zone: 'roja', name: "Retención deliberada", desc: "Quedarse con los hijos fuera de los días establecidos legalmente de manera intencionada." },
-      { num: 29, zone: 'roja', name: "Devolución condicionada", desc: "Exigir que la madre retire demandas o denuncias penales como condición para devolver a los hijos." },
-      { num: 30, zone: 'roja', name: "Castigo por lealtad materna", desc: "Reprender o castigar a los hijos cuando expresan que extrañan a la madre o intentan defenderla." },
-      { num: 31, zone: 'roja', name: "Campaña familiar extendida", desc: "Permitir y coordinar que la familia paterna insulte o descalifique a la madre frente a los niños." },
-      { num: 32, zone: 'roja', name: "Cambios unilaterales graves", desc: "Mudar de domicilio o cambiar a los hijos de colegio sin consentimiento ni aviso previo a la madre." },
-      { num: 33, zone: 'roja', name: "Amenaza de separación perpetua", desc: "Amenazar directamente a la madre con que jamás volverá a ver a sus hijos." },
-      { num: 34, zone: 'roja', name: "Denuncias institucionales falsas", desc: "Denunciar falsamente a la madre ante protección de menores para forzar la pérdida de custodia." },
-      { num: 35, zone: 'roja', name: "Sustracción temporal oculta", desc: "Esconder a los hijos durante días, cortando todo canal de comunicación telefónica o presencial." },
-      { num: 36, zone: 'roja', name: "Negligencia física provocada", desc: "Descuidar deliberadamente la higiene, alimentación o salud escolar para provocar angustia." },
-      { num: 37, zone: 'roja', name: "Destrucción de pertenencias", desc: "Tirar, regalar o destruir ropa, útiles o juguetes de los hijos que fueron comprados por la madre." },
-      { num: 38, zone: 'roja', name: "Alienación severa consumada", desc: "Destruir por completo el vínculo materno, logrando hostilidad y rechazo total de los hijos." },
+      { num: 21, zone: 'roja', name: "Denuncias judiciales falsas", desc: "Interponer denuncias falsas para obtener custodia." },
+      { num: 22, zone: 'roja', name: "Litigiosidad maliciosa", desc: "Utilizar procesos judiciales para hostigar." },
+      { num: 23, zone: 'roja', name: "Ocultar paradero de hijos", desc: "Ocultar el domicilio de los hijos." },
+      { num: 24, zone: 'roja', name: "Retener documentos oficiales", desc: "Retener documentos de identidad." },
+      { num: 25, zone: 'roja', name: "Condicionar pensiones", desc: "Condicionar pensiones o apoyos económicos." },
+      { num: 26, zone: 'roja', name: "Obstaculizar tratamientos", desc: "Obstaculizar tratamientos médicos o psicológicos." },
+      { num: 27, zone: 'roja', name: "Cambios escolares sin acuerdo", desc: "Cambiar de escuela sin consentimiento." },
+      { num: 28, zone: 'roja', name: "Aislamiento familia materna", desc: "Alejar a los hijos de la familia materna." },
+      { num: 29, zone: 'roja', name: "Boicot a fechas especiales", desc: "Impedir celebraciones, cumpleaños o fechas significativas." },
+      { num: 30, zone: 'roja', name: "Uso del sistema como castigo", desc: "Usar el sistema legal como mecanismo de castigo." },
       
-      { num: 39, zone: 'critica', name: "Amenaza de daño físico infantil", desc: "Enviar advertencias de que golpeará o causará daño físico a los hijos para doblegar a la madre." },
-      { num: 40, zone: 'critica', name: "Confinamiento / Cautiverio", desc: "Encerrar a los hijos o privarlos de salir de casa durante semanas para incomunicarlos." },
-      { num: 41, zone: 'critica', name: "Abantono en vía pública", desc: "Dejar a los hijos solos en la calle o con extraños hostiles con el único fin de aterrorizar." },
-      { num: 42, zone: 'critica', name: "Amenazas de muerte infantil", desc: "Amenazar con quitarle la vida a los hijos como advertencia o castigo final hacia la madre." },
-      { num: 43, zone: 'critica', name: "Secuestro parental definitivo", desc: "Sustraer a los hijos de forma permanente, trasladándolos de estado o país de manera oculta." },
-      { num: 44, zone: 'critica', name: "Intoxicación farmacológica", desc: "Suministrar medicamentos o sustancias no prescritas a los hijos para doparlos o enfermarles." },
-      { num: 45, zone: 'critica', name: "Maltrato físico severo", desc: "Golpear brutalmente a los hijos con objetos, alegando que la madre es la culpable de su castigo." },
-      { num: 46, zone: 'critica', name: "Violencia física presenciada", desc: "Obligar a los hijos a presenciar agresiones brutales a la madre o autolesiones sangrientas del padre." },
-      { num: 47, zone: 'critica', name: "Abuso sexual vicario", desc: "Agredir sexualmente a los hijos con el fin explícito de destruir psicológicamente a la madre." },
-      { num: 48, zone: 'critica', name: "Riesgo de vida provocado", desc: "Poner en riesgo letal simulado la vida de los hijos (alturas, choques inducidos) para asustar." },
-      { num: 49, zone: 'critica', name: "Lesiones graves permanentes", desc: "Provocar quemaduras, fracturas graves o mutilaciones físicas en los hijos con finalidad vicaria." },
-      { num: 50, zone: 'critica', name: "Homicidio vicario (Filicidio)", desc: "Asesinar a los hijos para consumar el máximo e irreversible dolor emocional a la madre (Destrucción Total)." }
+      { num: 31, zone: 'grave', name: "Sustraer u ocultar hijos", desc: "Sustraer o esconder a los hijos." },
+      { num: 32, zone: 'grave', name: "Retener ilegalmente menores", desc: "Retener ilegalmente a niñas, niños o adolescentes." },
+      { num: 33, zone: 'grave', name: "Amenaza de llevarse hijos", desc: "Amenazar con llevárselos permanentemente." },
+      { num: 34, zone: 'grave', name: "Daño físico instrumental", desc: "Provocar daño físico a los hijos para afectar a la madre." },
+      { num: 35, zone: 'grave', name: "Exponer a riesgos innecesarios", desc: "Exponer a los hijos a situaciones de riesgo." },
+      { num: 36, zone: 'grave', name: "Coacción a través de terceros", desc: "Utilizar a terceros para intimidar." },
+      { num: 37, zone: 'grave', name: "Amenazar con suicidarse", desc: "Amenazar con suicidarse para manipular." },
+      { num: 38, zone: 'grave', name: "Amenaza a familia materna", desc: "Amenazar con dañar a familiares cercanos." },
+      { num: 39, zone: 'grave', name: "Exposición a violencia severa", desc: "Exponer a los hijos a violencia extrema." },
+      { num: 40, zone: 'grave', name: "Privar de cuidados básicos", desc: "Privar deliberadamente a los hijos de cuidados básicos." },
+      
+      { num: 41, zone: 'extrema', name: "Secuestro parental", desc: "Secuestro parental." },
+      { num: 42, zone: 'extrema', name: "Desaparición u ocultamiento", desc: "Desaparición u ocultamiento prolongado de los hijos." },
+      { num: 43, zone: 'extrema', name: "Agresiones físicas graves", desc: "Agresiones físicas graves contra los menores." },
+      { num: 44, zone: 'extrema', name: "Violencia sexual infantil", desc: "Violencia sexual contra niñas, niños o adolescentes." },
+      { num: 45, zone: 'extrema', name: "Tortura psicológica", desc: "Tortura psicológica sistemática." },
+      { num: 46, zone: 'extrema', name: "Amenzas de muerte vicarias", desc: "Amenazas de muerte hacia la madre utilizando a los hijos." },
+      { num: 47, zone: 'extrema', name: "Inducción a conductas letales", desc: "Inducción de autolesiones o conductas de riesgo." },
+      { num: 48, zone: 'extrema', name: "Explotación laboral o mendicidad", desc: "Explotación de los hijos para castigar a la madre." },
+      { num: 49, zone: 'extrema', name: "Feminicidio familiar vinculado", desc: "Feminicidio vinculado a violencia familiar." },
+      { num: 50, zone: 'extrema', name: "Filicidio vicario", desc: "Homicidio o lesiones graves contra los hijos con finalidad de causar el máximo daño emocional a la madre." }
     ];
 
     const listContainer = document.getElementById('scale-list');

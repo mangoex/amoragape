@@ -1,1154 +1,614 @@
 {
   "metadata": {
     "id": "cero-amor-paternal",
-    "title": "Cero Amor Paternal (Violentómetro Vicario)",
-    "version": "1.0.0",
+    "title": "CERO AMOR PATERNAL (VIOLENTÓMETRO VICARIO)",
+    "version": "2.0.0",
     "author": "Blanca Estela Angulo López",
     "registration": "Reg. No. 03-2026-06101140-01",
-    "description": "Herramienta diagnóstica de datos compilatorios sobre la violencia vicaria ejercida por el padre hacia los hijos con la finalidad de infligir el máximo dolor emocional e irreversible a la madre."
+    "description": "Herramienta diagnóstica de datos compilatorios sobre la violencia vicaria ejercida por el padre hacia la madre a través de sus hijos, midiendo desde descalificaciones verbales hasta agresiones graves e irreversibles."
   },
   "domains": [
     {
       "id": "dom_vicaria_indirecta_intra",
-      "name": "Violencia Vicaria Indirecta",
-      "description": "Comportamientos enfocados en la manipulación psicológica de los hijos, la obstrucción del vínculo materno y el hostigamiento legal o económico.",
+      "name": "Violencia Vicaria Indirecta (Psico-Legal-Económica)",
+      "description": "Comportamientos enfocados en la desestabilización intrapersonal de la madre a través de alienación parental, sabotajes cotidianos y manipulación económica o legal.",
       "weight": 1.0
     },
     {
       "id": "dom_vicaria_directa_inter",
-      "name": "Violencia Vicaria Directa",
-      "description": "Comportamientos que representan agresiones físicas directas, exposición a riesgos letales, sustracción ilegal o atentar contra la vida de los hijos.",
+      "name": "Violencia Vicaria Directa (Grave y Extrema)",
+      "description": "Agresiones físicas, amenazas de daño vital, sustracción ilegal o atentar de manera crítica contra la integridad física de los hijos.",
       "weight": 1.0
     }
   ],
   "dimensions": [
     {
-      "id": "dim_alienacion_psicologica",
-      "name": "Alienación y Violencia Psicológica",
-      "description": "Acciones de descalificación escolar/médica, manipulación afectiva y campañas de desprestigio contra la madre frente a los menores.",
+      "id": "dim_alerta_alienacion",
+      "name": "Alerta y Alienación Parental",
       "domain_id": "dom_vicaria_indirecta_intra",
+      "description": "Campañas iniciales de desprestigio, desacreditación y uso de los hijos para enviar mensajes hostiles.",
       "weight": 1.0
     },
     {
-      "id": "dim_control_economico_legal",
-      "name": "Abuso Coercitivo, Económico y Legal",
-      "description": "Uso indebido de pensiones, retención de documentos oficiales, obstrucción judicial de visitas y falsas denuncias institucionales.",
+      "id": "dim_psicologica_emocional",
+      "name": "Violencia Psicológica y Emocional",
       "domain_id": "dom_vicaria_indirecta_intra",
+      "description": "Fomentar activamente el miedo, odio, resentimiento o ruptura afectiva hacia la madre.",
       "weight": 1.0
     },
     {
-      "id": "dim_riesgo_fisico_extremo",
-      "name": "Riesgo Físico y Violencia Directa",
-      "description": "Agresiones físicas, amenazas de daño corporal, secuestro parental y atentar contra la vida o integridad física del menor.",
+      "id": "dim_institucional_economica",
+      "name": "Violencia Institucional y Económica",
+      "domain_id": "dom_vicaria_indirecta_intra",
+      "description": "Uso de denuncias falsas, manipulación de pensiones y boicot a tratamientos médicos/escolares.",
+      "weight": 1.0
+    },
+    {
+      "id": "dim_violencia_grave",
+      "name": "Violencia Grave",
       "domain_id": "dom_vicaria_directa_inter",
+      "description": "Sustracción parental, daño físico menor y exposición de los hijos a situaciones de riesgo severo.",
+      "weight": 1.0
+    },
+    {
+      "id": "dim_violencia_extrema",
+      "name": "Violencia Extrema",
+      "domain_id": "dom_vicaria_directa_inter",
+      "description": "Secuestro prolongado, tortura, abuso sexual, tentativa de feminicidio o filicidio vicario.",
       "weight": 1.0
     }
   ],
   "zones": [
     {
-      "id": "zone_verde_vicaria",
-      "name": "Zona Verde: Alerta Inicial (Prevención)",
-      "color": "#059669",
-      "range_min": 0.0,
-      "range_max": 0.2,
-      "action_required": "¡Presta atención a las señales iniciales! La manipulación y comentarios negativos frente a los hijos son formas de violencia. Busca límites claros y asesoría inicial."
-    },
-    {
-      "id": "zone_amarilla_vicaria",
-      "name": "Zona Amarilla: Alerta de Obstrucción",
+      "id": "zone_alerta_vicaria",
+      "name": "Zona 1: ¡Alerta!",
       "color": "#D97706",
-      "range_min": 0.2,
-      "range_max": 0.45,
-      "action_required": "¡Reflexiona y actúa! Hay hostigamiento activo, obstrucción de visitas y desestabilización económica. Es momento de buscar acompañamiento legal y psicológico para ti y tus hijos."
+      "range_min": 0.0,
+      "range_max": 0.20,
+      "action_required": "¡Presta atención! La violencia vicaria inicia sutilmente con descalificaciones de la madre y manipulación inicial. Establece límites firmes y busca asesoría temprana."
     },
     {
-      "id": "zone_roja_vicaria",
-      "name": "Zona Roja: Riesgo Severo",
+      "id": "zone_psicologica_emocional_vicaria",
+      "name": "Zona 2: ¡Psicológica y Emocional!",
+      "color": "#EA580C",
+      "range_min": 0.20,
+      "range_max": 0.40,
+      "action_required": "¡Reacciona! Hay campañas de alienación activas, amenazas sobre la custodia y sabotajes en la comunicación. Es crucial contar con terapia de apoyo para tus hijos."
+    },
+    {
+      "id": "zone_institucional_economica_vicaria",
+      "name": "Zona 3: ¡Violencia institucional / económica!",
       "color": "#DC2626",
-      "range_min": 0.45,
-      "range_max": 0.75,
-      "action_required": "¡Peligro! Retención deliberada de menores, campañas de alienación severas y amenazas directas. Se aconseja solicitar de inmediato medidas cautelares y restricción de visitas."
+      "range_min": 0.40,
+      "range_max": 0.60,
+      "action_required": "¡Protégete legalmente! Uso abusivo del sistema de justicia, retención de documentos o condicionamiento de pensiones. Consigue un abogado especializado de inmediato."
     },
     {
-      "id": "zone_critica_vicaria",
-      "name": "Zona Crítica: Emergencia",
-      "color": "#7F1D1D",
-      "range_min": 0.75,
-      "range_max": 1.0,
-      "action_required": "¡Riesgo inminente de daño físico severo, sustracción definitiva o filicidio! Llama al 911 de inmediato. Resguarda a los niños e inicia los procedimientos penales correspondientes."
+      "id": "zone_grave_vicaria",
+      "name": "Zona 4: ¡Violencia grave!",
+      "color": "#991B1B",
+      "range_min": 0.60,
+      "range_max": 0.80,
+      "action_required": "¡Peligro severo! Sustracción, amenazas de daño e instrumentación física de los menores. Es urgente solicitar medidas de protección legales inmediatas."
+    },
+    {
+      "id": "zone_extrema_vicaria",
+      "name": "Zona 5: ¡Violencia extrema!",
+      "color": "#000000",
+      "range_min": 0.80,
+      "range_max": 1.00,
+      "action_required": "¡Emergencia Crítica! Secuestro parental, agresiones físicas severas, tortura o riesgo inminente de homicidio. Comunícate al 911 de inmediato."
     }
   ],
   "levels": [
-    {
-      "step": 1,
-      "name": "Hablar mal / Descalificar",
-      "zone_id": "zone_verde_vicaria",
-      "description": "Hablar de manera despectiva, con insultos o descalificaciones de la madre en presencia de los hijos."
-    },
-    {
-      "step": 2,
-      "name": "Cuestionar autoridad",
-      "zone_id": "zone_verde_vicaria",
-      "description": "Desautorizar las decisiones de crianza, límites o reglas establecidas por la madre ante los hijos."
-    },
-    {
-      "step": 3,
-      "name": "Ridiculizar hábitos",
-      "zone_id": "zone_verde_vicaria",
-      "description": "Burlarse o criticar destructivamente el estilo de vida, trabajo, profesión o hábitos de la madre frente a los niños."
-    },
-    {
-      "step": 4,
-      "name": "Sabotear comunicación",
-      "zone_id": "zone_verde_vicaria",
-      "description": "Ignorar, cortar o limitar las llamadas o videollamadas de la madre con los hijos durante el tiempo de estancia con el padre."
-    },
-    {
-      "step": 5,
-      "name": "Fomentar desobediencia",
-      "zone_id": "zone_verde_vicaria",
-      "description": "Incitar o aplaudir que los hijos desobedezcan o falten al respeto a la madre."
-    },
-    {
-      "step": 6,
-      "name": "Espionaje / Interrogatorios",
-      "zone_id": "zone_verde_vicaria",
-      "description": "Interrogar a los hijos sobre la vida privada, relaciones sentimentales o finanzas de la madre para vigilarla."
-    },
-    {
-      "step": 7,
-      "name": "Hijos como mensajeros",
-      "zone_id": "zone_verde_vicaria",
-      "description": "Utilizar a los hijos para transmitir reclamos, quejas o advertencias hostiles a la madre."
-    },
-    {
-      "step": 8,
-      "name": "Culpabilizar por ruptura",
-      "zone_id": "zone_verde_vicaria",
-      "description": "Hacer creer a los hijos que la madre es la única responsable de la separación, divorcio o desintegración familiar."
-    },
-    {
-      "step": 9,
-      "name": "Castigo de afecto",
-      "zone_id": "zone_verde_vicaria",
-      "description": "Hacer sentir culpables a los hijos o mostrar enojo cuando demuestran afecto o deseo de estar con la madre."
-    },
-    {
-      "step": 10,
-      "name": "Comparación despectiva",
-      "zone_id": "zone_verde_vicaria",
-      "description": "Comparar de forma negativa a la madre con la nueva pareja del padre o con otros familiares para menospreciarla."
-    },
-    {
-      "step": 11,
-      "name": "Ocultar información básica",
-      "zone_id": "zone_verde_vicaria",
-      "description": "No informar deliberadamente a la madre sobre eventos, reuniones escolares o cuestiones cotidianas del menor."
-    },
-    {
-      "step": 12,
-      "name": "Desvalorizar cuidados",
-      "zone_id": "zone_verde_vicaria",
-      "description": "Decir a los hijos que los cuidados de la madre (comida, ropa, atención médica) son deficientes o malos."
-    },
-    {
-      "step": 13,
-      "name": "Incumplimiento alimentario",
-      "zone_id": "zone_amarilla_vicaria",
-      "description": "Dejar de pagar la pensión alimenticia de manera injustificada para asfixiar económicamente a la madre."
-    },
-    {
-      "step": 14,
-      "name": "Justificación económica falsa",
-      "zone_id": "zone_amarilla_vicaria",
-      "description": "Decirle a los hijos que no tienen comida o ropa porque la madre 'se gasta el dinero' o exige demasiado."
-    },
-    {
-      "step": 15,
-      "name": "Desestabilización horaria",
-      "zone_id": "zone_amarilla_vicaria",
-      "description": "Incumplir con los horarios de entrega y recogida de los hijos de forma sistemática para alterar la vida laboral o personal de la madre."
-    },
-    {
-      "step": 16,
-      "name": "Interferencia en citas",
-      "zone_id": "zone_amarilla_vicaria",
-      "description": "Agendar actividades o visitas fuera de lo acordado para boicotear citas médicas, escolares o psicológicas de los niños."
-    },
-    {
-      "step": 17,
-      "name": "Enfermedades simuladas",
-      "zone_id": "zone_amarilla_vicaria",
-      "description": "Manipular a los hijos para que finjan estar enfermos y así evitar que regresen con la madre tras la visita."
-    },
-    {
-      "step": 18,
-      "name": "Competencia material desleal",
-      "zone_id": "zone_amarilla_vicaria",
-      "description": "Ofrecer regalos costosos, viajes o conceder permisos desmedidos para desautorizar la disciplina y ganarse a los hijos."
-    },
-    {
-      "step": 19,
-      "name": "Chantaje emocional de soledad",
-      "zone_id": "zone_amarilla_vicaria",
-      "description": "Expresar a los hijos que se siente solo, enfermo o abandonado para evitar que regresen con la madre o forzarlos a quedarse."
-    },
-    {
-      "step": 20,
-      "name": "Imposición de secretos",
-      "zone_id": "zone_amarilla_vicaria",
-      "description": "Obligar a los hijos a guardar secretos sobre lo que hacen, ven o escuchan en la casa del padre."
-    },
-    {
-      "step": 21,
-      "name": "Boicot a festividades",
-      "zone_id": "zone_amarilla_vicaria",
-      "description": "Obstruir o retener a los hijos en fechas clave (cumpleaños de la madre, Día de las Madres, Navidad) para impedir el festejo."
-    },
-    {
-      "step": 22,
-      "name": "Condicionamiento financiero",
-      "zone_id": "zone_amarilla_vicaria",
-      "description": "Condicionar el pago de la escuela, actividades o salud de los hijos a que la madre ceda a sus peticiones personales."
-    },
-    {
-      "step": 23,
-      "name": "Amenazas de custodia",
-      "zone_id": "zone_amarilla_vicaria",
-      "description": "Amenazar constantemente con iniciar juicios para quitarle la custodia legal de los hijos a la madre."
-    },
-    {
-      "step": 24,
-      "name": "Testimonios falsos inducidos",
-      "zone_id": "zone_amarilla_vicaria",
-      "description": "Presionar o ensayar con los hijos para que den declaraciones falsas en el juzgado o escuela en contra de la madre."
-    },
-    {
-      "step": 25,
-      "name": "Bloqueo terapéutico",
-      "zone_id": "zone_amarilla_vicaria",
-      "description": "Oponerse o no firmar el consentimiento para que los hijos reciban terapia psicológica necesaria para su estabilidad."
-    },
-    {
-      "step": 26,
-      "name": "Retención de documentos",
-      "zone_id": "zone_roja_vicaria",
-      "description": "Retener actas de nacimiento, pasaportes o cartillas de vacunación de los hijos para limitar la movilidad de la madre."
-    },
-    {
-      "step": 27,
-      "name": "Inculcar temor al abandono",
-      "zone_id": "zone_roja_vicaria",
-      "description": "Inculcar en los hijos el miedo de que la madre los va a abandonar, los odia o que correrán peligro si vuelven con ella."
-    },
-    {
-      "step": 28,
-      "name": "Retención deliberada",
-      "zone_id": "zone_roja_vicaria",
-      "description": "Quedarse con los hijos fuera de los días establecidos legalmente de manera intencionada y sin comunicación."
-    },
-    {
-      "step": 29,
-      "name": "Devolución condicionada",
-      "zone_id": "zone_roja_vicaria",
-      "description": "Exigir que la madre retire demandas civiles o denuncias penales como condición para devolverle a sus hijos."
-    },
-    {
-      "step": 30,
-      "name": "Castigo por lealtad materna",
-      "zone_id": "zone_roja_vicaria",
-      "description": "Agredir verbal o emocionalmente a los hijos cuando estos expresan extrañar a la madre o defenderla."
-    },
-    {
-      "step": 31,
-      "name": "Campaña familiar extendida",
-      "zone_id": "zone_roja_vicaria",
-      "description": "Permitir y coordinar que la familia paterna insulte, descalifique o acose a la madre frente a los menores."
-    },
-    {
-      "step": 32,
-      "name": "Cambios unilaterales graves",
-      "zone_id": "zone_roja_vicaria",
-      "description": "Cambiar a los hijos de colegio o mudar su domicilio de forma imprevista y sin consentimiento de la madre."
-    },
-    {
-      "step": 33,
-      "name": "Amenaza de separación perpetua",
-      "zone_id": "zone_roja_vicaria",
-      "description": "Advertir u hostigar a la madre constantemente con que jamás volverá a ver a sus hijos."
-    },
-    {
-      "step": 34,
-      "name": "Denuncias institucionales falsas",
-      "zone_id": "zone_roja_vicaria",
-      "description": "Denunciar falsamente a la madre ante el DIF o la policía por supuesto maltrato para lograr que le quiten la custodia."
-    },
-    {
-      "step": 35,
-      "name": "Sustracción temporal oculta",
-      "zone_id": "zone_roja_vicaria",
-      "description": "Ocultar el paradero de los hijos durante varios días de manera injustificada, incomunicándolos por completo."
-    },
-    {
-      "step": 36,
-      "name": "Negligencia física provocada",
-      "zone_id": "zone_roja_vicaria",
-      "description": "Desatender de manera intencional la higiene, alimentación o sueño de los hijos para generar estrés en la madre."
-    },
-    {
-      "step": 37,
-      "name": "Destrucción de pertenencias",
-      "zone_id": "zone_roja_vicaria",
-      "description": "Tirar, regalar o destruir la ropa, calzado, útiles o juguetes de los hijos que fueron comprados por la madre."
-    },
-    {
-      "step": 38,
-      "name": "Alienación severa consumada",
-      "zone_id": "zone_roja_vicaria",
-      "description": "Destruir por completo el vínculo materno-filial mediante manipulación, provocando hostilidad y rechazo total de los hijos."
-    },
-    {
-      "step": 39,
-      "name": "Amenaza de daño físico infantil",
-      "zone_id": "zone_critica_vicaria",
-      "description": "Enviar mensajes o advertir telefónicamente que golpeará o causará daño físico a los hijos para doblegar a la madre."
-    },
-    {
-      "step": 40,
-      "name": "Confinamiento / Cautiverio infantil",
-      "zone_id": "zone_critica_vicaria",
-      "description": "Encerrar a los hijos o prohibirles salir a la calle o al patio durante semanas para incomunicarlos."
-    },
-    {
-      "step": 41,
-      "name": "Abandono en vía pública",
-      "zone_id": "zone_critica_vicaria",
-      "description": "Dejar a los hijos solos en la calle, en otra ciudad o con extraños hostiles para sembrar terror en la madre."
-    },
-    {
-      "step": 42,
-      "name": "Amenazas de muerte infantil",
-      "zone_id": "zone_critica_vicaria",
-      "description": "Decirle a los hijos que los va a matar, o decírselo a la madre con el fin de aterrorizar y chantajear."
-    },
-    {
-      "step": 43,
-      "name": "Secuestro parental definitivo",
-      "zone_id": "zone_critica_vicaria",
-      "description": "Sustraer a los hijos de su entorno y trasladarlos definitivamente fuera del estado o país sin dejar rastro."
-    },
-    {
-      "step": 44,
-      "name": "Intoxicación farmacológica simulada",
-      "zone_id": "zone_critica_vicaria",
-      "description": "Suministrar medicamentos, gotas u otras sustancias a los hijos sin justificación médica para enfermarlos y culpar a la madre."
-    },
-    {
-      "step": 45,
-      "name": "Maltrato físico severo indirecto",
-      "zone_id": "zone_critica_vicaria",
-      "description": "Propinar golpizas, golpes con objetos o maltrato físico grave a los hijos argumentando que la culpa es de la madre."
-    },
-    {
-      "step": 46,
-      "name": "Violencia física presenciada",
-      "zone_id": "zone_critica_vicaria",
-      "description": "Exponer a los hijos a que presencien agresiones físicas brutales contra la madre o autolesiones severas del padre."
-    },
-    {
-      "step": 47,
-      "name": "Abuso sexual vicario",
-      "zone_id": "zone_critica_vicaria",
-      "description": "Agredir sexualmente a los hijos con el objetivo de causar la destrucción psicológica permanente de la madre."
-    },
-    {
-      "step": 48,
-      "name": "Riesgo de vida provocado",
-      "zone_id": "zone_critica_vicaria",
-      "description": "Provocar choques vehiculares, ponerlos al borde de alturas o exponerlos a sustancias venenosas de forma simulada."
-    },
-    {
-      "step": 49,
-      "name": "Lesiones graves permanentes",
-      "zone_id": "zone_critica_vicaria",
-      "description": "Infligir quemaduras, mutilaciones o fracturas graves a los hijos que dejen secuelas permanentes."
-    },
-    {
-      "step": 50,
-      "name": "Homicidio vicario (Filicidio)",
-      "zone_id": "zone_critica_vicaria",
-      "description": "Asesinar a los hijos del matrimonio o pareja con la expresa finalidad de causar el máximo e irreversible dolor a la madre."
-    }
+    { "step": 1, "name": "Hablar mal de la madre", "zone_id": "zone_alerta_vicaria", "description": "Hablar mal de la madre frente a los hijos." },
+    { "step": 2, "name": "Desacreditar figura materna", "zone_id": "zone_alerta_vicaria", "description": "Ridiculizar o desacreditar la figura materna." },
+    { "step": 3, "name": "Hijos como mensajeros", "zone_id": "zone_alerta_vicaria", "description": "Utilizar a los hijos para enviar mensajes." },
+    { "step": 4, "name": "Interrogar sobre vida privada", "zone_id": "zone_alerta_vicaria", "description": "Interrogar a los hijos sobre la vida privada de la madre." },
+    { "step": 5, "name": "Generar culpa por convivir", "zone_id": "zone_alerta_vicaria", "description": "Hacer sentir culpables a los hijos por convivir con ella." },
+    { "step": 6, "name": "Comparaciones negativas", "zone_id": "zone_alerta_vicaria", "description": "Comparar constantemente a la madre de forma negativa." },
+    { "step": 7, "name": "Ignorar afecto materno", "zone_id": "zone_alerta_vicaria", "description": "Ignorar las emociones de los hijos cuando expresan afecto hacia la madre." },
+    { "step": 8, "name": "Manipular recuerdos", "zone_id": "zone_alerta_vicaria", "description": "Manipular recuerdos para generar rechazo." },
+    { "step": 9, "name": "Exigir lealtad exclusiva", "zone_id": "zone_alerta_vicaria", "description": "Exigir lealtad exclusiva." },
+    { "step": 10, "name": "Premiar conductas de rechazo", "zone_id": "zone_alerta_vicaria", "description": "Premiar conductas de rechazo hacia la madre." },
+    { "step": 11, "name": "Amenazar con quitar custodia", "zone_id": "zone_psicologica_emocional_vicaria", "description": "Amenazar con quitar la custodia." },
+    { "step": 12, "name": "Amenazar con impedir visitas", "zone_id": "zone_psicologica_emocional_vicaria", "description": "Amenazar con impedir las convivencias." },
+    { "step": 13, "name": "Inventar historias dañinas", "zone_id": "zone_psicologica_emocional_vicaria", "description": "Inventar historias para dañar la imagen materna." },
+    { "step": 14, "name": "Fomentar miedo a la madre", "zone_id": "zone_psicologica_emocional_vicaria", "description": "Fomentar miedo hacia la madre." },
+    { "step": 15, "name": "Alienación afectiva", "zone_id": "zone_psicologica_emocional_vicaria", "description": "Generar alienación afectiva." },
+    { "step": 16, "name": "Hijos como espías", "zone_id": "zone_psicologica_emocional_vicaria", "description": "Utilizar a los hijos como espías." },
+    { "step": 17, "name": "Impedir comunicación", "zone_id": "zone_psicologica_emocional_vicaria", "description": "Impedir llamadas o comunicación." },
+    { "step": 18, "name": "Ocultar información básica", "zone_id": "zone_psicologica_emocional_vicaria", "description": "Ocultar información escolar o médica." },
+    { "step": 19, "name": "Obligar a elegir bando", "zone_id": "zone_psicologica_emocional_vicaria", "description": "Manipular emocionalmente a los hijos para elegir un bando." },
+    { "step": 20, "name": "Promover desprecio u odio", "zone_id": "zone_psicologica_emocional_vicaria", "description": "Promover odio, resentimiento o desprecio hacia la madre." },
+    { "step": 21, "name": "Denuncias judiciales falsas", "zone_id": "zone_institucional_economica_vicaria", "description": "Interponer denuncias falsas para obtener custodia." },
+    { "step": 22, "name": "Litigiosidad maliciosa", "zone_id": "zone_institucional_economica_vicaria", "description": "Utilizar procesos judiciales para hostigar." },
+    { "step": 23, "name": "Ocultar paradero de hijos", "zone_id": "zone_institucional_economica_vicaria", "description": "Ocultar el domicilio de los hijos." },
+    { "step": 24, "name": "Retener documentos oficiales", "zone_id": "zone_institucional_economica_vicaria", "description": "Retener documentos de identidad." },
+    { "step": 25, "name": "Condicionar pensiones", "zone_id": "zone_institucional_economica_vicaria", "description": "Condicionar pensiones o apoyos económicos." },
+    { "step": 26, "name": "Obstaculizar tratamientos", "zone_id": "zone_institucional_economica_vicaria", "description": "Obstaculizar tratamientos médicos o psicológicos." },
+    { "step": 27, "name": "Cambios escolares sin acuerdo", "zone_id": "zone_institucional_economica_vicaria", "description": "Cambiar de escuela sin consentimiento." },
+    { "step": 28, "name": "Aislamiento familia materna", "zone_id": "zone_institucional_economica_vicaria", "description": "Alejar a los hijos de la familia materna." },
+    { "step": 29, "name": "Boicot a fechas especiales", "zone_id": "zone_institucional_economica_vicaria", "description": "Impedir celebraciones, cumpleaños o fechas significativas." },
+    { "step": 30, "name": "Uso del sistema como castigo", "zone_id": "zone_institucional_economica_vicaria", "description": "Usar el sistema legal como mecanismo de castigo." },
+    { "step": 31, "name": "Sustraer u ocultar hijos", "zone_id": "zone_grave_vicaria", "description": "Sustraer o esconder a los hijos." },
+    { "step": 32, "name": "Retener ilegalmente menores", "zone_id": "zone_grave_vicaria", "description": "Retener ilegalmente a niñas, niños o adolescentes." },
+    { "step": 33, "name": "Amenaza de llevarse hijos", "zone_id": "zone_grave_vicaria", "description": "Amenazar con llevárselos permanentemente." },
+    { "step": 34, "name": "Daño físico instrumental", "zone_id": "zone_grave_vicaria", "description": "Provocar daño físico a los hijos para afectar a la madre." },
+    { "step": 35, "name": "Exponer a riesgos innecesarios", "zone_id": "zone_grave_vicaria", "description": "Exponer a los hijos a situaciones de riesgo." },
+    { "step": 36, "name": "Coacción a través de terceros", "zone_id": "zone_grave_vicaria", "description": "Utilizar a terceros para intimidar." },
+    { "step": 37, "name": "Amenzar con suicidarse", "zone_id": "zone_grave_vicaria", "description": "Amenzar con suicidarse para manipular." },
+    { "step": 38, "name": "Amenaza a familia materna", "zone_id": "zone_grave_vicaria", "description": "Amenzar con dañar a familiares cercanos." },
+    { "step": 39, "name": "Exposición a violencia severa", "zone_id": "zone_grave_vicaria", "description": "Exponer a los hijos a violencia extrema." },
+    { "step": 40, "name": "Privar de cuidados básicos", "zone_id": "zone_grave_vicaria", "description": "Privar deliberadamente a los hijos de cuidados básicos." },
+    { "step": 41, "name": "Secuestro parental", "zone_id": "zone_extrema_vicaria", "description": "Secuestro parental." },
+    { "step": 42, "name": "Desaparición u ocultamiento", "zone_id": "zone_extrema_vicaria", "description": "Desaparición u ocultamiento prolongado de los hijos." },
+    { "step": 43, "name": "Agresiones físicas graves", "zone_id": "zone_extrema_vicaria", "description": "Agresiones físicas graves contra los menores." },
+    { "step": 44, "name": "Violencia sexual infantil", "zone_id": "zone_extrema_vicaria", "description": "Violencia sexual contra niñas, niños o adolescentes." },
+    { "step": 45, "name": "Tortura psicológica", "zone_id": "zone_extrema_vicaria", "description": "Tortura psicológica sistemática." },
+    { "step": 46, "name": "Amenzas de muerte vicarias", "zone_id": "zone_extrema_vicaria", "description": "Amenazas de muerte hacia la madre utilizando a los hijos." },
+    { "step": 47, "name": "Inducción a conductas letales", "zone_id": "zone_extrema_vicaria", "description": "Inducción de autolesiones o conductas de riesgo." },
+    { "step": 48, "name": "Explotación laboral o mendicidad", "zone_id": "zone_extrema_vicaria", "description": "Explotación de los hijos para castigar a la madre." },
+    { "step": 49, "name": "Feminicidio familiar vinculado", "zone_id": "zone_extrema_vicaria", "description": "Feminicidio vinculado a violencia familiar." },
+    { "step": 50, "name": "Filicidio vicario", "zone_id": "zone_extrema_vicaria", "description": "Homicidio o lesiones graves contra los hijos con finalidad de causar el máximo daño emocional a la madre." }
   ],
   "response_scales": {
     "likert_4": [
-      {
-        "value": 0,
-        "label": "Nunca"
-      },
-      {
-        "value": 1,
-        "label": "Poco"
-      },
-      {
-        "value": 2,
-        "label": "Moderado"
-      },
-      {
-        "value": 3,
-        "label": "Mucho"
-      }
+      { "value": 0, "label": "Nunca" },
+      { "value": 1, "label": "Poco" },
+      { "value": 2, "label": "Moderado" },
+      { "value": 3, "label": "Mucho" }
     ]
   },
   "reactivos": [
     {
       "id": "RV01",
-      "statement": "El padre habla de manera despectiva o descalifica mi persona frente a nuestros hijos.",
+      "statement": "El padre habla mal de mí frente a nuestros hijos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_alerta_alienacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV02",
-      "statement": "El padre desautoriza o cuestiona mis decisiones de crianza y límites frente a nuestros hijos.",
+      "statement": "El padre ridiculiza o desacredita mi figura materna frente a nuestros hijos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_alerta_alienacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV03",
-      "statement": "El padre ridiculiza o se burla de mi profesión, hábitos o estilo de vida frente a nuestros hijos.",
+      "statement": "El padre utiliza a nuestros hijos para enviarme mensajes, quejas o reclamos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_alerta_alienacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV04",
-      "statement": "El padre limita, ignora o impide las llamadas o videollamadas que intento tener con nuestros hijos.",
+      "statement": "El padre interroga a nuestros hijos sobre mi vida privada o mis actividades.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_alerta_alienacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV05",
-      "statement": "El padre fomenta que nuestros hijos me desobedezcan o me falten al respeto.",
+      "statement": "El padre hace sentir culpables a nuestros hijos cuando conviven o pasan tiempo conmigo.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_alerta_alienacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV06",
-      "statement": "El padre interroga a nuestros hijos sobre mis actividades privadas, finanzas o pareja para vigilarme.",
+      "statement": "El padre me compara constantemente de forma negativa frente a nuestros hijos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_alerta_alienacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV07",
-      "statement": "El padre envía quejas, reclamos o advertencias hostiles hacia mí usando a nuestros hijos como mensajeros.",
+      "statement": "El padre ignora o rechaza las emociones de nuestros hijos cuando expresan afecto hacia mí.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_alerta_alienacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV08",
-      "statement": "El padre culpa a mi persona por la separación o divorcio en presencia de nuestros hijos.",
+      "statement": "El padre manipula los recuerdos de nuestros hijos para generar rechazo hacia mí.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_alerta_alienacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV09",
-      "statement": "El padre muestra molestia o hace sentir culpables a nuestros hijos por demostrarme afecto o querer estar conmigo.",
+      "statement": "El padre les exige a nuestros hijos lealtad exclusiva hacia él, rechazándome a mí.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_alerta_alienacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV10",
-      "statement": "El padre me compara negativamente con su pareja actual u otros familiares frente a nuestros hijos.",
+      "statement": "El padre premia o celebra las conductas de rechazo o desobediencia de nuestros hijos hacia mí.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_alerta_alienacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV11",
-      "statement": "El padre me oculta información sobre reuniones escolares, actividades o cuestiones cotidianas de nuestros hijos.",
+      "statement": "El padre me amenaza con quitarme la custodia legal de nuestros hijos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_psicologica_emocional", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV12",
-      "statement": "El padre le dice a nuestros hijos que la comida, ropa o cuidados que yo les doy son deficientes o malos.",
+      "statement": "El padre me amenaza con impedir o suspender mis convivencias con nuestros hijos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_psicologica_emocional", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV13",
-      "statement": "El padre incumple con la pensión alimenticia acordada para nuestros hijos de manera injustificada.",
+      "statement": "El padre inventa historias o mentiras para dañar mi imagen materna ante nuestros hijos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_psicologica_emocional", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV14",
-      "statement": "El padre les dice a nuestros hijos que no tienen cosas porque yo me gasto el dinero o les robo.",
+      "statement": "El padre fomenta miedo, temor o desconfianza en nuestros hijos hacia mí.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_psicologica_emocional", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV15",
-      "statement": "El padre incumple con los horarios de entrega o recogida de nuestros hijos para desestabilizar mi rutina.",
+      "statement": "El padre realiza acciones para romper el vínculo afectivo de nuestros hijos conmigo.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_psicologica_emocional", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV16",
-      "statement": "El padre sabotea las citas médicas, terapias o actividades que yo programo para nuestros hijos.",
+      "statement": "El padre utiliza a nuestros hijos como espías para vigilar mis actividades o mi hogar.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_psicologica_emocional", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV17",
-      "statement": "El padre manipula a nuestros hijos para que finjan estar enfermos y no regresar conmigo.",
+      "statement": "El padre impide o dificulta las llamadas telefónicas o cualquier comunicación de nuestros hijos conmigo.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_psicologica_emocional", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV18",
-      "statement": "El padre ofrece regalos costosos o promesas desmedidas con la intención de desautorizar mi disciplina.",
+      "statement": "El padre me oculta o niega información sobre el desarrollo escolar o estado de salud de nuestros hijos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_psicologica_emocional", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV19",
-      "statement": "El padre manipula a nuestros hijos diciéndoles que se enfermará o estará triste si regresan conmigo.",
+      "statement": "El padre manipula emocionalmente a nuestros hijos para obligarlos a elegir entre él o yo.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_psicologica_emocional", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV20",
-      "statement": "El padre obliga a nuestros hijos a guardarme secretos sobre lo que sucede en su casa.",
+      "statement": "El padre promueve activamente sentimientos de odio, resentimiento o desprecio en nuestros hijos hacia mí.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_psicologica_emocional", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV21",
-      "statement": "El padre obstaculiza que nuestros hijos estén conmigo en celebraciones importantes como mi cumpleaños o el Día de las Madres.",
+      "statement": "El padre interpone denuncias o reportes falsos en mi contra ante las autoridades para obtener la custodia.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_institucional_economica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV22",
-      "statement": "El padre condiciona el dinero para la escuela o salud de nuestros hijos a cambio de exigencias personales.",
+      "statement": "El padre utiliza demandas o procesos judiciales constantes como un mecanismo para hostigarme.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_institucional_economica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV23",
-      "statement": "El padre me amenaza constantemente con quitarme la custodia de nuestros hijos mediante juicios.",
+      "statement": "El padre me oculta el domicilio o paradero exacto de nuestros hijos cuando están con él.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_institucional_economica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV24",
-      "statement": "El padre induce a nuestros hijos a mentir o dar testimonios falsos sobre mí en ámbitos legales o escolares.",
+      "statement": "El padre retiene u oculta los documentos de identidad oficiales de nuestros hijos (actas de nacimiento, pasaportes).",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_institucional_economica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV25",
-      "statement": "El padre se opone firmemente a que nuestros hijos reciban la terapia o atención psicológica que necesitan.",
+      "statement": "El padre condiciona el pago de la pensión o apoyos económicos de nuestros hijos a sus exigencias personales.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_institucional_economica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV26",
-      "statement": "El padre retiene u oculta documentos oficiales de nuestros hijos (pasaportes, actas) para dificultar trámites.",
+      "statement": "El padre obstaculiza o niega el consentimiento para tratamientos médicos o psicológicos de nuestros hijos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_institucional_economica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV27",
-      "statement": "El padre les infunde miedo a nuestros hijos diciendo que yo los voy a abandonar o que no los quiero.",
+      "statement": "El padre inscribe o cambia a nuestros hijos de escuela sin mi consentimiento.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_institucional_economica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV28",
-      "statement": "El padre retiene a nuestros hijos en su casa fuera de los días acordados, sin mi consentimiento.",
+      "statement": "El padre prohíbe u obstaculiza que nuestros hijos convivan con mi familia (abuelos, tíos o primos).",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_institucional_economica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV29",
-      "statement": "El padre me exige retirar demandas o denuncias como condición para devolverme a nuestros hijos.",
+      "statement": "El padre impide que nuestros hijos compartan conmigo sus cumpleaños, días festivos o fechas importantes.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_institucional_economica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV30",
-      "statement": "El padre reprende o castiga a nuestros hijos cuando expresan que me extrañan o intentan defenderme.",
+      "statement": "El padre utiliza el sistema legal y las notificaciones judiciales para castigarme o desgastarme.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_institucional_economica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
       ]
     },
     {
       "id": "RV31",
-      "statement": "El padre permite que su familia insulte o descalifique mi persona frente a nuestros hijos.",
+      "statement": "El padre sustrae, esconde o incomunica a nuestros hijos de su entorno habitual.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_grave", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV32",
-      "statement": "El padre cambia a nuestros hijos de escuela o de domicilio sin consultarme ni avisarme.",
+      "statement": "El padre retiene de forma ilegal a nuestros hijos incumpliendo los días de entrega decretados.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_grave", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV33",
-      "statement": "El padre me amenaza directamente con que jamás volveré a ver a nuestros hijos.",
+      "statement": "El padre me amenaza con llevarse a nuestros hijos definitivamente para que nunca los vuelva a ver.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_grave", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV34",
-      "statement": "El padre me denuncia falsamente ante autoridades protectoras de menores para intentar quitarme la custodia.",
+      "statement": "El padre provoca o permite daños físicos menores a nuestros hijos para causarme dolor o angustia.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_grave", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV35",
-      "statement": "El padre sustrae u oculta el paradero de nuestros hijos durante días, cortando toda comunicación.",
+      "statement": "El padre expone a nuestros hijos a actividades o situaciones de riesgo físico innecesario.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_control_economico_legal",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_grave", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV36",
-      "statement": "El padre descuida la higiene, alimentación o salud de nuestros hijos durante las visitas para causarme angustia.",
+      "statement": "El padre utiliza a familiares suyos o terceros para devaluarme o intimidarme usando a nuestros hijos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_grave", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV37",
-      "statement": "El padre tira o destruye juguetes, ropa o útiles de nuestros hijos que yo les he comprado.",
+      "statement": "El padre amenaza con quitarse la vida frente a nuestros hijos o a mí para manipularnos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_grave", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV38",
-      "statement": "El padre ha logrado que nuestros hijos me traten con hostilidad, odio o rechazo debido a su manipulación.",
+      "statement": "El padre amenaza con dañar físicamente a mi familia materna o seres queridos frente a nuestros hijos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_alienacion_psicologica",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_indirecta_intra",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_grave", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV39",
-      "statement": "El padre amenaza con golpear o causar daño físico a nuestros hijos para asustarme o doblegarme.",
+      "statement": "El padre expone a nuestros hijos a presenciar actos de violencia física severa o maltrato en su entorno.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_riesgo_fisico_extremo",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_directa_inter",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_grave", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV40",
-      "statement": "El padre encierra o mantiene bajo confinamiento a nuestros hijos, privándolos de salir o comunicarse.",
+      "statement": "El padre priva a nuestros hijos de alimentación, higiene o cuidados médicos básicos durante su estancia con él.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_riesgo_fisico_extremo",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_directa_inter",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_grave", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV41",
-      "statement": "El padre ha dejado a nuestros hijos abandonados en la calle o con extraños para aterrorizarme.",
+      "statement": "El padre ha realizado un secuestro parental de nuestros hijos ocultándolos en otro estado o país.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_riesgo_fisico_extremo",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_directa_inter",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_extrema", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV42",
-      "statement": "El padre amenaza con quitarle la vida a nuestros hijos como advertencia o castigo hacia mí.",
+      "statement": "El padre mantiene ocultos o incomunicados a nuestros hijos de forma prolongada sin que yo sepa de ellos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_riesgo_fisico_extremo",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_directa_inter",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_extrema", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV43",
-      "statement": "El padre ha sustraído a nuestros hijos de forma definitiva cambiándolos de estado o país de manera oculta.",
+      "statement": "El padre propina golpes severos o agresiones físicas graves contra nuestros hijos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_riesgo_fisico_extremo",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_directa_inter",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_extrema", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV44",
-      "statement": "El padre medica a nuestros hijos sin indicación médica para enfermarlos o doparlos.",
+      "statement": "El padre ha ejercido o permitido violencia, tocamientos o abuso sexual contra nuestros hijos.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_riesgo_fisico_extremo",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_directa_inter",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_extrema", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV45",
-      "statement": "El padre golpea severamente a nuestros hijos con objetos o les causa heridas diciendo que yo tengo la culpa.",
+      "statement": "El padre somete a nuestros hijos a tortura psicológica, encierros forzados, privación del sueño o humillaciones graves.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_riesgo_fisico_extremo",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_directa_inter",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_extrema", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV46",
-      "statement": "El padre obliga a nuestros hijos a presenciar cómo me golpea o cómo él se autolesiona con sangre.",
+      "statement": "El padre amenaza con quitarme la vida utilizando a nuestros hijos para hacerme llegar el mensaje.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_riesgo_fisico_extremo",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_directa_inter",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_extrema", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV47",
-      "statement": "El padre ha agredido sexualmente a nuestros hijos o ha tolerado que otros lo hagan para destruirme emocionalmente.",
+      "statement": "El padre induce a nuestros hijos a autolesionarse o a participar en conductas de alto riesgo letal.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_riesgo_fisico_extremo",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_directa_inter",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_extrema", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV48",
-      "statement": "El padre pone en riesgo letal la vida de nuestros hijos (choques inducidos, juegos de altura) para aterrorizarme.",
+      "statement": "El padre explota laboralmente o expone a mendicidad a nuestros hijos como forma de castigo indirecto hacia mí.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_riesgo_fisico_extremo",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_directa_inter",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_extrema", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV49",
-      "statement": "El padre ha provocado fracturas, quemaduras o mutilaciones en nuestros hijos con el fin de dañarme.",
+      "statement": "El padre ha atentado contra mi vida (tentativa de feminicidio) frente a nuestros hijos o utilizando la relación paterna.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_riesgo_fisico_extremo",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_directa_inter",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_extrema", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     },
     {
       "id": "RV50",
-      "statement": "El padre ha intentado asesinar o ha asesinado a uno de nuestros hijos para infligirme el máximo dolor emocional.",
+      "statement": "El padre atenta de forma homicida (filicidio vicario) o lesiona gravemente a nuestros hijos para causarme el máximo daño e irreversible.",
       "scale_id": "likert_4",
       "weights": [
-        {
-          "dimension_id": "dim_riesgo_fisico_extremo",
-          "weight": 1.0
-        },
-        {
-          "dimension_id": "dom_vicaria_directa_inter",
-          "weight": 1.0
-        }
+        { "dimension_id": "dim_violencia_extrema", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
       ]
     }
   ]

@@ -271,6 +271,7 @@
     .badge-zone.amarilla { background: rgba(217, 119, 6, 0.15); color: #FBBF24; border: 1px solid rgba(217, 119, 6, 0.3); }
     .badge-zone.roja { background: rgba(220, 38, 38, 0.15); color: #F87171; border: 1px solid rgba(220, 38, 38, 0.3); }
     .badge-zone.critica { background: rgba(127, 29, 29, 0.3); color: #FFAAAA; border: 1px solid rgba(127, 29, 29, 0.5); }
+    .badge-zone.critica-extrema { background: rgba(0, 0, 0, 0.5); color: #FFAAAA; border: 1px solid rgba(255, 255, 255, 0.25); }
 
     /* Interactivity for critical alerts */
     .critical-alert-row {
@@ -1210,8 +1211,10 @@
 
     function getZoneClass(zoneId) {
       if (zoneId.includes('verde')) return 'verde';
-      if (zoneId.includes('amarilla') || zoneId.includes('azul')) return 'amarilla';
-      if (zoneId.includes('roja') || zoneId.includes('purpura')) return 'roja';
+      if (zoneId.includes('alerta') || zoneId.includes('psico') || zoneId.includes('amarilla') || zoneId.includes('azul')) return 'amarilla';
+      if (zoneId.includes('institucional') || zoneId.includes('roja') || zoneId.includes('purpura')) return 'roja';
+      if (zoneId.includes('grave') || zoneId.includes('critica')) return 'critica';
+      if (zoneId.includes('extrema')) return 'critica-extrema';
       return 'critica';
     }
 
@@ -1671,7 +1674,7 @@
       let redOrCriticalCount = 0;
       
       const zoneCounts = { verde: 0, amarilla: 0, roja: 0, critica: 0 };
-      const criticalReactivoHits = { R22: 0, R26: 0, R27: 0, R28: 0, RV42: 0, RV47: 0, RV50: 0 };
+      const criticalReactivoHits = { R22: 0, R26: 0, R27: 0, R28: 0, RV42: 0, RV44: 0, RV46: 0, RV47: 0, RV50: 0 };
       
       regularUsers.forEach(u => {
         if (u.history && u.history.length > 0) {
@@ -1682,17 +1685,17 @@
           const latest = sorted[0];
           sumScores += latest.globalIndex;
           
-          if (latest.zoneId === 'zone_roja' || latest.zoneId === 'zone_critica') {
+          if (latest.zoneId === 'zone_roja' || latest.zoneId === 'zone_critica' || latest.zoneId.includes('roja') || latest.zoneId.includes('grave') || latest.zoneId.includes('extrema') || latest.zoneId.includes('institucional')) {
             redOrCriticalCount++;
           }
 
           if (latest.zoneId.includes('verde')) zoneCounts.verde++;
-          else if (latest.zoneId.includes('amarilla') || latest.zoneId.includes('azul')) zoneCounts.amarilla++;
-          else if (latest.zoneId.includes('roja') || latest.zoneId.includes('purpura')) zoneCounts.roja++;
-          else if (latest.zoneId.includes('critica')) zoneCounts.critica++;
+          else if (latest.zoneId.includes('amarilla') || latest.zoneId.includes('azul') || latest.zoneId.includes('alerta') || latest.zoneId.includes('psico')) zoneCounts.amarilla++;
+          else if (latest.zoneId.includes('roja') || latest.zoneId.includes('purpura') || latest.zoneId.includes('institucional')) zoneCounts.roja++;
+          else if (latest.zoneId.includes('critica') || latest.zoneId.includes('grave') || latest.zoneId.includes('extrema')) zoneCounts.critica++;
 
           // Check crisis hits
-          ["R22", "R26", "R27", "R28", "RV42", "RV47", "RV50"].forEach(qId => {
+          ["R22", "R26", "R27", "R28", "RV42", "RV44", "RV46", "RV47", "RV50"].forEach(qId => {
             if (latest.answers && latest.answers[qId] > 0) criticalReactivoHits[qId]++;
           });
         }
@@ -1725,9 +1728,11 @@
         R26: "Cutting (Me corto)",
         R27: "Mutilación de tejidos",
         R28: "Intento directo de suicidio",
-        RV42: "Amenazas de muerte infantil (Vicaria)",
-        RV47: "Abuso sexual infantil (Vicaria)",
-        RV50: "Atentar contra la vida / Filicidio (Vicaria)"
+        RV42: "Ocultamiento prolongado de los hijos (Vicaria)",
+        RV44: "Abuso o violencia sexual infantil (Vicaria)",
+        RV46: "Amenazas de muerte maternal utilizando a los hijos (Vicaria)",
+        RV47: "Inducción de autolesiones infantiles (Vicaria)",
+        RV50: "Homicidio infantil / Filicidio (Vicaria)"
       };
 
       Object.keys(criticalReactivoHits).forEach(qId => {
@@ -2037,10 +2042,10 @@
               iga: 0.0,
               iba: 0.0,
               ivp: 0.68,
-              zoneId: "zone_roja_vicaria",
-              zoneName: "Zona Roja: Riesgo Severo",
-              zoneColor: "#DC2626",
-              explanation: "¡Peligro! Retención deliberada de menores, campañas de alienación severas y amenazas directas. Se aconseja solicitar de inmediato medidas cautelares.",
+              zoneId: "zone_grave_vicaria",
+              zoneName: "Zona 4: ¡Violencia grave!",
+              zoneColor: "#991B1B",
+              explanation: "¡Peligro! Sustracción de menores, amenazas de daño físico y uso de los hijos para intimidar. Es indispensable tramitar medidas de protección urgentes.",
               domainScores: { dom_vicaria_indirecta_intra: 0.75, dom_vicaria_directa_inter: 0.61 },
               answers: generateMockAnswers('cero-amor-paternal', 0.68, true) // crisis active (death threats)
             }
@@ -2078,21 +2083,13 @@
       
       if (instrumentId === 'cero-amor-paternal') {
         if (seedCrisis) {
-          answers["RV42"] = 2; // amenazas de muerte
-          answers["RV47"] = 1; // abuso sexual vicario
+          answers["RV42"] = 2; // ocultamiento
+          answers["RV44"] = 1; // abuso sexual
+          answers["RV50"] = 2; // filicidio
         } else {
-          answers["RV39"] = 0;
-          answers["RV40"] = 0;
-          answers["RV41"] = 0;
-          answers["RV42"] = 0;
-          answers["RV43"] = 0;
-          answers["RV44"] = 0;
-          answers["RV45"] = 0;
-          answers["RV46"] = 0;
-          answers["RV47"] = 0;
-          answers["RV48"] = 0;
-          answers["RV49"] = 0;
-          answers["RV50"] = 0;
+          for (let i = 41; i <= 50; i++) {
+            answers["RV" + (i < 10 ? "0" + i : i)] = 0;
+          }
         }
       } else {
         if (seedCrisis) {
