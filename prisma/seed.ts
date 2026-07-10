@@ -156,6 +156,84 @@ async function main() {
   } else {
     console.log('Paternal survey already exists, skipping creation.');
   }
+
+  // Seeding Cero Amor Maternal
+  const existingMaternalSurvey = await prisma.survey.findFirst({
+    where: { name: 'Cero Amor Maternal (Violentómetro Vicario)' }
+  });
+
+  if (!existingMaternalSurvey) {
+    const survey = await prisma.survey.create({
+      data: {
+        id: 'cero-amor-maternal',
+        name: 'Cero Amor Maternal (Violentómetro Vicario)',
+        description: 'Herramienta diagnóstica de datos compilatorios sobre la violencia vicaria ejercida por la madre hacia el padre a través de sus hijos.',
+        adaptiveRules: {
+          condition: {
+            domain: 1,
+            questions: ['RM01', 'RM02', 'RM03', 'RM04', 'RM05', 'RM06', 'RM07', 'RM08', 'RM09', 'RM10', 'RM11', 'RM12'],
+            operator: '<',
+            value: 3
+          },
+          action: {
+            type: 'skip_domain',
+            targetDomainToSkip: 2,
+            jumpToDomain: 3,
+            description: 'Si la suma de Dom 1 es < 3, salta a Dom 3'
+          }
+        },
+        levels: {
+          create: [
+            {
+              name: 'Zona 1: ¡Alerta tempranas!',
+              minScore: 0,
+              maxScore: 18,
+              description: '¡Presta atención! El violentómetro vicario materno inicia sutilmente con descalificaciones de la figura paterna.',
+              clinicalApproach: 'Establece límites de comunicación firmes y claros.'
+            },
+            {
+              name: 'Zona 2: ¡Manipulación Emocional!',
+              minScore: 19,
+              maxScore: 36,
+              description: '¡Reacciona! Hay manipulación emocional activa para hacer sentir culpa a los hijos y presentarse como única figura de afecto.',
+              clinicalApproach: 'Es de suma importancia contar con terapia de apoyo para tus hijos.'
+            },
+            {
+              name: 'Zona 3: ¡Alineación familiar!',
+              minScore: 37,
+              maxScore: 54,
+              description: '¡Actúa legalmente! Campañas de alienación extendidas y bloqueos sistemáticos de visitas.',
+              clinicalApproach: 'Consigue la asesoría de un abogado especializado.'
+            },
+            {
+              name: 'Zona 4: ¡Violencia Psicólogica grave!',
+              minScore: 55,
+              maxScore: 72,
+              description: '¡Peligro! Impedimento de contacto por largos períodos, denuncias falsas y el uso de los hijos para enviar amenazas.',
+              clinicalApproach: 'Lleva una bitácora detallada de incidencias y denuncia.'
+            },
+            {
+              name: 'Zona 5: ¡Riesgo alto niñez!',
+              minScore: 73,
+              maxScore: 90,
+              description: '¡Riesgo severo! Sustracción de los hijos, cambio ilegal de domicilio y manipulación de testimonios de menores.',
+              clinicalApproach: 'Es indispensable solicitar medidas de protección urgentes.'
+            },
+            {
+              name: 'Zona 6: ¡Violencia extrema!',
+              minScore: 91,
+              maxScore: 108,
+              description: '¡Emergencia Letal! Amenazas de desaparición, fabricación de delitos graves, y exposición física de los niños.',
+              clinicalApproach: 'Comunícate de inmediato al 911.'
+            }
+          ]
+        }
+      }
+    });
+    console.log(`Survey created: ${survey.name} with its levels and rules.`);
+  } else {
+    console.log('Maternal survey already exists, skipping creation.');
+  }
 }
 
 main()

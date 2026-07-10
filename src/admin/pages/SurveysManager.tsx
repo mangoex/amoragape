@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, ChevronDown, ChevronUp, GitBranch, Activity, X, AlertTriangle } from 'lucide-react';
+import { Plus, Edit2, Trash2, ChevronDown, ChevronUp, GitBranch, Activity, X, AlertTriangle, ExternalLink } from 'lucide-react';
 
 interface SurveyLevel {
   id?: string;
@@ -321,6 +321,16 @@ export function SurveysManager() {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
+                    <a 
+                      href={`/?survey=${survey.id}`}
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="p-2 text-gray-400 hover:text-emerald-500 transition-colors rounded-lg hover:bg-gray-100 cursor-pointer flex items-center justify-center" 
+                      title="Responder / Ver Encuesta"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <ExternalLink size={18} />
+                    </a>
                     <button 
                       className="p-2 text-gray-400 hover:text-[#7C3AED] transition-colors rounded-lg hover:bg-gray-100 cursor-pointer" 
                       onClick={(e) => handleEditSurveyClick(e, survey)} 

@@ -1,0 +1,483 @@
+{
+  "metadata": {
+    "id": "cero-amor-maternal",
+    "title": "CERO AMOR MATERNAL (VIOLENTÓMETRO VICARIO)",
+    "version": "1.0.0",
+    "author": "Blanca Estela Angulo López",
+    "registration": "Reg. No. 03-2026-06101140-02",
+    "description": "Herramienta diagnóstica de datos compilatorios sobre la violencia vicaria ejercida por la madre hacia el padre utilizando a los hijos, midiendo la escala progresiva de maltrato."
+  },
+  "domains": [
+    {
+      "id": "dom_vicaria_indirecta_intra",
+      "name": "Violencia Vicaria Indirecta (Psico-Legal-Económica)",
+      "description": "Comportamientos enfocados en la desestabilización intrapersonal del padre a través de alienación parental, descalificaciones de su rol y manipulación escolar o legal.",
+      "weight": 1.0
+    },
+    {
+      "id": "dom_vicaria_directa_inter",
+      "name": "Violencia Vicaria Directa (Grave y Extrema)",
+      "description": "Acciones graves de retención, sustracción, mentiras en tribunales y exposición de los hijos a riesgos severos con el fin de perjudicar al padre.",
+      "weight": 1.0
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "dim_alerta_manipulacion",
+      "name": "Alerta y Manipulación Emocional",
+      "domain_id": "dom_vicaria_indirecta_intra",
+      "description": "Comentarios despectivos iniciales, ridiculización del rol paterno y manipulación afectiva para distanciar a los hijos.",
+      "weight": 1.0
+    },
+    {
+      "id": "dim_alineacion_bloqueo",
+      "name": "Alineación Familiar y Bloqueo",
+      "domain_id": "dom_vicaria_indirecta_intra",
+      "description": "Sabotaje sistemático a visitas y convivencias, e invención de historias de abandono.",
+      "weight": 1.0
+    },
+    {
+      "id": "dim_violencia_psicologica",
+      "name": "Violencia Psicólogica Grave",
+      "domain_id": "dom_vicaria_indirecta_intra",
+      "description": "Uso de los hijos como mensajeros de amenazas, inducción de rechazo permanente y denuncias falsas de separación.",
+      "weight": 1.0
+    },
+    {
+      "id": "dim_riesgo_infantil",
+      "name": "Riesgo Alto en la Niñez",
+      "domain_id": "dom_vicaria_directa_inter",
+      "description": "Sustracción parental, cambios unilaterales de domicilio y entrenamiento de menores para juicios.",
+      "weight": 1.0
+    },
+    {
+      "id": "dim_violencia_extrema_maternal",
+      "name": "Violencia Extrema",
+      "domain_id": "dom_vicaria_directa_inter",
+      "description": "Amenazas de desaparición de los hijos, fabricación de cargos penales graves y exposición letal a riesgos.",
+      "weight": 1.0
+    }
+  ],
+  "zones": [
+    {
+      "id": "zone_alerta_maternal",
+      "name": "Zona 1: ¡Alerta tempranas!",
+      "color": "#D97706",
+      "range_min": 0.0,
+      "range_max": 0.17,
+      "action_required": "¡Presta atención! El violentómetro vicario materno inicia de manera sutil mediante desacreditaciones de la figura paterna e interferencia menor en el contacto."
+    },
+    {
+      "id": "zone_manipulacion_maternal",
+      "name": "Zona 2: ¡Manipulación Emocional!",
+      "color": "#EA580C",
+      "range_min": 0.17,
+      "range_max": 0.33,
+      "action_required": "¡Reacciona! Hay manipulación emocional activa para hacer sentir culpa a los hijos y presentarse como única figura de afecto."
+    },
+    {
+      "id": "zone_alineacion_maternal",
+      "name": "Zona 3: ¡Alineación familiar!",
+      "color": "#DC2626",
+      "range_min": 0.33,
+      "range_max": 0.50,
+      "action_required": "¡Actúa legalmente! Campañas de alienación extendidas, bloqueos sistemáticos de visitas e invención de historias falsas."
+    },
+    {
+      "id": "zone_psicologica_maternal",
+      "name": "Zona 4: ¡Violencia Psicólogica grave!",
+      "color": "#312E81",
+      "range_min": 0.50,
+      "range_max": 0.67,
+      "action_required": "¡Peligro! Impedimento de contacto por largos períodos, denuncias falsas y el uso de los hijos para enviar amenazas directas."
+    },
+    {
+      "id": "zone_riesgo_maternal",
+      "name": "Zona 5: ¡Riesgo alto niñez!",
+      "color": "#991B1B",
+      "range_min": 0.67,
+      "range_max": 0.83,
+      "action_required": "¡Riesgo severo! Sustracción de los hijos, cambio ilegal de domicilio y manipulación judicial de los testimonios de los niños."
+    },
+    {
+      "id": "zone_extrema_maternal",
+      "name": "Zona 6: ¡Violencia extrema!",
+      "color": "#000000",
+      "range_min": 0.83,
+      "range_max": 1.00,
+      "action_required": "¡Emergencia Letal! Amenazas de desaparición, fabricación de delitos graves, y exposición física de los niños para causar el máximo daño emocional."
+    }
+  ],
+  "levels": [
+    { "step": 1, "name": "Hablar mal del padre", "zone_id": "zone_alerta_maternal", "description": "Hablar constantemente mal del padre frente a los hijos." },
+    { "step": 2, "name": "Ridiculizar capacidades", "zone_id": "zone_alerta_maternal", "description": "Ridiculizar sus capacidades parentales." },
+    { "step": 3, "name": "Impedir llamadas", "zone_id": "zone_alerta_maternal", "description": "Impedir llamadas o mensajes sin justificación." },
+    { "step": 4, "name": "Ocultar información", "zone_id": "zone_alerta_maternal", "description": "Ocultar información escolar o médica." },
+    { "step": 5, "name": "Ignorar convivencias", "zone_id": "zone_alerta_maternal", "description": "Ignorar acuerdos de convivencia." },
+    { "step": 6, "name": "Desacreditar con sarcasmos", "zone_id": "zone_alerta_maternal", "description": "Utilizar sarcasmos para desacreditarlo." },
+    { "step": 7, "name": "Generar culpa por convivir", "zone_id": "zone_manipulacion_maternal", "description": "Hacer sentir culpa a los hijos por convivir con el padre." },
+    { "step": 8, "name": "Premiar rechazo al padre", "zone_id": "zone_manipulacion_maternal", "description": "Premiar el rechazo hacia el padre." },
+    { "step": 9, "name": "Hijos como espías", "zone_id": "zone_manipulacion_maternal", "description": "Solicitar a los hijos que vigilen o reporten actividades del padre." },
+    { "step": 10, "name": "Única figura de afecto", "zone_id": "zone_manipulacion_maternal", "description": "Presentarse como única figura válida de afecto." },
+    { "step": 11, "name": "Exagerar conflictos", "zone_id": "zone_manipulacion_maternal", "description": "Exagerar conflictos para generar miedo." },
+    { "step": 12, "name": "Obligar a elegir bando", "zone_id": "zone_manipulacion_maternal", "description": "Hacer que los hijos elijan entre ambos progenitores." },
+    { "step": 13, "name": "Acusaciones sin sustento", "zone_id": "zone_alineacion_maternal", "description": "Difundir acusaciones sin sustento ante familiares." },
+    { "step": 14, "name": "Bloqueo sistemático", "zone_id": "zone_alineacion_maternal", "description": "Bloquear sistemáticamente convivencias." },
+    { "step": 15, "name": "Descalificar regalos", "zone_id": "zone_alineacion_maternal", "description": "Descalificar regalos o muestras de cariño del padre." },
+    { "step": 16, "name": "Bloquear eventos escolares", "zone_id": "zone_alineacion_maternal", "description": "Impedir participación en eventos escolares." },
+    { "step": 17, "name": "Decir que no los ama", "zone_id": "zone_alineacion_maternal", "description": "Convencer a los hijos de que el padre no los ama." },
+    { "step": 18, "name": "Narrativas de abandono", "zone_id": "zone_alineacion_maternal", "description": "Crear narrativas de abandono inexistentes." },
+    { "step": 19, "name": "Hijos mensajeros de amenazas", "zone_id": "zone_psicologica_maternal", "description": "Utilizar a los hijos como mensajeros de amenazas." },
+    { "step": 20, "name": "Inducir rechazo permanente", "zone_id": "zone_psicologica_maternal", "description": "Inducir rechazo permanente hacia el padre." },
+    { "step": 21, "name": "Generar miedo injustificado", "zone_id": "zone_psicologica_maternal", "description": "Generar miedo injustificado hacia él." },
+    { "step": 22, "name": "Ocultar salud o educación", "zone_id": "zone_psicologica_maternal", "description": "Ocultar información importante sobre salud o educación." },
+    { "step": 23, "name": "Denuncias falsas preventivas", "zone_id": "zone_psicologica_maternal", "description": "Interponer denuncias falsas con fines de separación parental." },
+    { "step": 24, "name": "Impedir contacto prolongado", "zone_id": "zone_psicologica_maternal", "description": "Impedir el contacto por largos periodos." },
+    { "step": 25, "name": "Sustraer u ocultar hijos", "zone_id": "zone_riesgo_maternal", "description": "Sustraer u ocultar a los hijos para impedir convivencia." },
+    { "step": 26, "name": "Mudar de casa sin avisar", "zone_id": "zone_riesgo_maternal", "description": "Cambiar de domicilio sin informar." },
+    { "step": 27, "name": "Manipular testimonios", "zone_id": "zone_riesgo_maternal", "description": "Manipular testimonios de menores en procesos judiciales." },
+    { "step": 28, "name": "Odio o desprecio persistente", "zone_id": "zone_riesgo_maternal", "description": "Fomentar odio o desprecio persistente." },
+    { "step": 29, "name": "Extorsión emocional", "zone_id": "zone_riesgo_maternal", "description": "Utilizar a los hijos para extorsionar emocionalmente." },
+    { "step": 30, "name": "Obstruir sentencias de visitas", "zone_id": "zone_riesgo_maternal", "description": "Obstaculizar resoluciones judiciales de convivencia." },
+    { "step": 31, "name": "Amenazar con desaparecer hijos", "zone_id": "zone_extrema_maternal", "description": "Amenazar con desaparecer a los hijos." },
+    { "step": 32, "name": "Daño psicológico severo", "zone_id": "zone_extrema_maternal", "description": "Utilizar a los menores para causar daño psicológico severo." },
+    { "step": 33, "name": "Exposición a pleitos judiciales", "zone_id": "zone_extrema_maternal", "description": "Exponer a los hijos a conflictos judiciales deliberadamente." },
+    { "step": 34, "name": "Fabricar delitos graves", "zone_id": "zone_extrema_maternal", "description": "Fabricar acusaciones graves para romper vínculos parentales." },
+    { "step": 35, "name": "Aislamiento total del padre", "zone_id": "zone_extrema_maternal", "description": "Promover aislamiento total del padre." },
+    { "step": 36, "name": "Exposición física a riesgos", "zone_id": "zone_extrema_maternal", "description": "Colocar a los hijos en situaciones de riesgo para perjudicar al otro progenitor." }
+  ],
+  "response_scales": {
+    "likert_4": [
+      { "value": 0, "label": "Nunca" },
+      { "value": 1, "label": "Poco" },
+      { "value": 2, "label": "Moderado" },
+      { "value": 3, "label": "Mucho" }
+    ]
+  },
+  "reactivos": [
+    {
+      "id": "RM01",
+      "statement": "La madre habla constantemente mal del padre frente a los hijos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alerta_manipulacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM02",
+      "statement": "La madre ridiculiza sus capacidades parentales frente a nuestros hijos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alerta_manipulacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM03",
+      "statement": "La madre impide llamadas o mensajes de los hijos conmigo sin justificación.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alerta_manipulacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM04",
+      "statement": "La madre me oculta o niega información escolar o médica de nuestros hijos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alerta_manipulacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM05",
+      "statement": "La madre ignora o incumple los acuerdos de convivencia establecidos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alerta_manipulacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM06",
+      "statement": "La madre utiliza sarcasmos o burlas para desacreditarme frente a nuestros hijos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alerta_manipulacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM07",
+      "statement": "La madre hace sentir culpables a nuestros hijos por convivir o querer estar conmigo.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alerta_manipulacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM08",
+      "statement": "La madre premia, celebra o aplaude el rechazo de nuestros hijos hacia mí.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alerta_manipulacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM09",
+      "statement": "La madre solicita o presiona a nuestros hijos para que vigilen o reporten mis actividades.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alerta_manipulacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM10",
+      "statement": "La madre se presenta ante nuestros hijos como la única figura válida de afecto y cuidado.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alerta_manipulacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM11",
+      "statement": "La madre exagera o inventa conflictos en mi contra para generar miedo en nuestros hijos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alerta_manipulacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM12",
+      "statement": "La madre manipula a nuestros hijos para obligarlos a elegir entre ella o yo.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alerta_manipulacion", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM13",
+      "statement": "La madre difunde acusaciones falsas o sin sustento sobre mi persona ante familiares.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alineacion_bloqueo", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM14",
+      "statement": "La madre bloquea o cancela sistemáticamente mis convivencias con nuestros hijos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alineacion_bloqueo", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM15",
+      "statement": "La madre descalifica o destruye los regalos y muestras de cariño que les doy a nuestros hijos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alineacion_bloqueo", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM16",
+      "statement": "La madre impide mi participación o me excluye de eventos y juntas escolares de nuestros hijos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alineacion_bloqueo", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM17",
+      "statement": "La madre convence a nuestros hijos de que yo no los amo o que los he abandonado.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alineacion_bloqueo", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM18",
+      "statement": "La madre crea narrativas o historias de abandono y descuido paterno que nunca existieron.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_alineacion_bloqueo", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM19",
+      "statement": "La madre utiliza a nuestros hijos para enviarme quejas, advertencias o amenazas.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_violencia_psicologica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM20",
+      "statement": "La madre induce activamente a nuestros hijos a un rechazo permanente y desprecio hacia mí.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_violencia_psicologica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM21",
+      "statement": "La madre infunde miedo injustificado o temor en nuestros hijos para que no quieran convivir conmigo.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_violencia_psicologica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM22",
+      "statement": "La madre me oculta o retiene reportes críticos sobre el estado de salud o notas escolares de nuestros hijos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_violencia_psicologica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM23",
+      "statement": "La madre interpone denuncias o demandas falsas en mi contra con el fin de forzar la separación de nuestros hijos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_violencia_psicologica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM24",
+      "statement": "La madre me impide el contacto o comunicación con nuestros hijos por periodos prolongados.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_violencia_psicologica", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_indirecta_intra", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM25",
+      "statement": "La madre sustrae, oculta o incomunica a nuestros hijos para impedir que comparta con ellos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_riesgo_infantil", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM26",
+      "statement": "La madre cambia de domicilio o ciudad a nuestros hijos sin informarme previamente.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_riesgo_infantil", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM27",
+      "statement": "La madre manipula o entrena a nuestros hijos para que den falsas declaraciones en mi contra en los juzgados.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_riesgo_infantil", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM28",
+      "statement": "La madre fomenta sentimientos de odio, desprecio y rencor persistente de nuestros hijos hacia mí.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_riesgo_infantil", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM29",
+      "statement": "La madre utiliza a nuestros hijos para extorsionarme emocionalmente o exigir beneficios económicos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_riesgo_infantil", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM30",
+      "statement": "La madre desobedece y obstaculiza de forma activa las resoluciones judiciales de convivencia.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_riesgo_infantil", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM31",
+      "statement": "La madre amenaza con desaparecer a nuestros hijos para que nunca más vuelva a verlos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_violencia_extrema_maternal", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM32",
+      "statement": "La madre utiliza a nuestros hijos como herramientas para causarme un daño psicológico severo e irreversible.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_violencia_extrema_maternal", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM33",
+      "statement": "La madre expone deliberadamente a nuestros hijos a presenciar conflictos judiciales y peleas constantes.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_violencia_extrema_maternal", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM34",
+      "statement": "La madre fabrica acusaciones graves de maltrato o abuso en mi contra con el fin de romper el vínculo paterno.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_violencia_extrema_maternal", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM35",
+      "statement": "La madre promueve el aislamiento total y la exclusión de mi figura paterna en la vida de nuestros hijos.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_violencia_extrema_maternal", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "RM36",
+      "statement": "La madre coloca a nuestros hijos en situaciones de riesgo físico o emocional con la finalidad de perjudicarme.",
+      "scale_id": "likert_4",
+      "weights": [
+        { "dimension_id": "dim_violencia_extrema_maternal", "weight": 1.0 },
+        { "dimension_id": "dom_vicaria_directa_inter", "weight": 1.0 }
+      ]
+    }
+  ]
+}

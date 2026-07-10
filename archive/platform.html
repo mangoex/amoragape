@@ -645,6 +645,15 @@
                 </div>
                 <button class="btn-action secondary" onclick="startDiagnostic('cero-amor-paternal')" style="width: 100%; justify-content: center;">Iniciar Examen</button>
               </div>
+
+              <div class="instrument-card">
+                <div>
+                  <div class="instrument-meta">⚖️ Violentómetro Vicario</div>
+                  <h3 class="instrument-name">Cero Amor Maternal</h3>
+                  <p class="instrument-desc">Mide y detecta las conductas de violencia vicaria ejercidas por la madre hacia los hijos para dañar al padre.</p>
+                </div>
+                <button class="btn-action secondary" onclick="startDiagnostic('cero-amor-maternal')" style="width: 100%; justify-content: center;">Iniciar Examen</button>
+              </div>
             </div>
           </div>
 
@@ -1119,7 +1128,7 @@
         let scoreStr = '';
         if (item.instrumentId === 'cero-amor') scoreStr = `${Math.round(item.iga * 100)}%`;
         else if (item.instrumentId === 'amor-agape') scoreStr = `${Math.round(item.iba * 100)}%`;
-        else scoreStr = `${Math.round((item.ivp || item.globalIndex) * 100)}%`;
+        else scoreStr = `${Math.round((item.ivp || item.ivm || item.globalIndex) * 100)}%`;
         const zoneClass = getZoneClass(item.zoneId);
 
         tr.innerHTML = `
@@ -1167,6 +1176,38 @@
               <p>Comunícate hoy mismo con tus 3 personas de confianza. Explícales tu situación emocional actual; el aislamiento agrava la autoviolencia.</p>
             </div>`;
         }
+      } else if (latest.instrumentId === 'cero-amor-maternal') {
+        if (latest.zoneId.includes('alerta')) {
+          suggestionText = `
+            <div class="suggestion-box">
+              <h4>Mantente Alerta y Pon Límites</h4>
+              <p>El nivel inicial es bajo, pero recuerda que desacreditar al padre frente a los hijos daña su estabilidad. Registra los comentarios negativos y mantén límites claros en la comunicación.</p>
+            </div>
+            <div class="suggestion-box" style="border-left-color: var(--emerald-light); margin-top: 1rem;">
+              <h4>Diálogo Asertivo</h4>
+              <p>Evita responder a provocaciones o discusiones frente a los menores. Utiliza canales escritos y formales para acordar temas de crianza.</p>
+            </div>`;
+        } else if (latest.zoneId.includes('manipulacion') || latest.zoneId.includes('alineacion')) {
+          suggestionText = `
+            <div class="suggestion-box" style="border-left-color: var(--yellow);">
+              <h4>Documenta Incidencias y Busca Asesoría</h4>
+              <p>Existen conductas de manipulación y alineación familiar. Lleva una bitácora detallada de fechas, horas y capturas de pantalla de los incumplimientos o descalificaciones.</p>
+            </div>
+            <div class="suggestion-box" style="border-left-color: var(--yellow); margin-top: 1rem;">
+              <h4>Apoyo para tus Hijos</h4>
+              <p>Considera acompañamiento psicológico infantil para blindar emocionalmente a tus hijos contra la manipulación o alienación parental.</p>
+            </div>`;
+        } else {
+          suggestionText = `
+            <div class="suggestion-box" style="border-left-color: var(--red);">
+              <h4>Protección Urgente y Asistencia Legal</h4>
+              <p>Se detectan conductas de alto riesgo (sustracción, amenazas de desaparición, manipulación judicial). Es vital consultar a un abogado familiar de inmediato.</p>
+            </div>
+            <div class="suggestion-box" style="border-left-color: var(--red); margin-top: 1rem;">
+              <h4>Resguardo y Seguridad</h4>
+              <p>Mantén a la mano documentos oficiales y prioriza la integridad y bienestar psicológico de tus menores ante los juzgados.</p>
+            </div>`;
+        }
       } else if (latest.instrumentId === 'cero-amor-paternal') {
         if (latest.zoneId.includes('verde')) {
           suggestionText = `
@@ -1211,9 +1252,9 @@
 
     function getZoneClass(zoneId) {
       if (zoneId.includes('verde')) return 'verde';
-      if (zoneId.includes('alerta') || zoneId.includes('psico') || zoneId.includes('amarilla') || zoneId.includes('azul')) return 'amarilla';
-      if (zoneId.includes('institucional') || zoneId.includes('roja') || zoneId.includes('purpura')) return 'roja';
-      if (zoneId.includes('grave') || zoneId.includes('critica')) return 'critica';
+      if (zoneId.includes('alerta') || zoneId.includes('manipulacion') || zoneId.includes('amarilla') || zoneId.includes('azul')) return 'amarilla';
+      if (zoneId.includes('psico') || zoneId.includes('alineacion') || zoneId.includes('institucional') || zoneId.includes('roja') || zoneId.includes('purpura')) return 'roja';
+      if (zoneId.includes('grave') || zoneId.includes('riesgo') || zoneId.includes('critica')) return 'critica';
       if (zoneId.includes('extrema')) return 'critica-extrema';
       return 'critica';
     }
@@ -1221,7 +1262,8 @@
     // ── 5. RUN DIAGNOSTIC WIZARD ────────────────────────────────
     function startDiagnostic(instrumentId) {
       const url = instrumentId === 'cero-amor' ? 'cero_amor.json' : 
-                  (instrumentId === 'cero-amor-paternal' ? 'cero_amor_paternal.json' : 'amor_agape.json');
+                  (instrumentId === 'cero-amor-paternal' ? 'cero_amor_paternal.json' : 
+                  (instrumentId === 'cero-amor-maternal' ? 'cero_amor_maternal.json' : 'amor_agape.json'));
       
       fetch(url)
         .then(res => res.json())
@@ -1405,6 +1447,11 @@
         crisisQuestions.forEach(qId => {
           if (diagAnswers[qId] > 0) hasCrisisAlert = true;
         });
+      } else if (currentDiag === 'cero-amor-maternal') {
+        const crisisQuestions = ["RM31", "RM32", "RM33", "RM34", "RM35", "RM36"]; // amenazas graves, sustracción, exposición física
+        crisisQuestions.forEach(qId => {
+          if (diagAnswers[qId] > 0) hasCrisisAlert = true;
+        });
       }
 
       // Save to Historial
@@ -1417,6 +1464,7 @@
         iga: currentDiag === 'cero-amor' ? globalScore : 0,
         iba: currentDiag === 'amor-agape' ? globalScore : 0,
         ivp: currentDiag === 'cero-amor-paternal' ? globalScore : 0,
+        ivm: currentDiag === 'cero-amor-maternal' ? globalScore : 0,
         zoneId: matchingZone.id,
         zoneName: matchingZone.name,
         zoneColor: matchingZone.color,
@@ -1458,7 +1506,7 @@
       
       const scoreLabel = document.getElementById('results-score-label');
       scoreLabel.innerText = res.instrumentId === 'cero-amor' ? 'Autoviolencia' : 
-                            (res.instrumentId === 'cero-amor-paternal' ? 'Violencia Vicaria' : 'Bienestar Ágape');
+                            (res.instrumentId === 'cero-amor-paternal' || res.instrumentId === 'cero-amor-maternal' ? 'Violencia Vicaria' : 'Bienestar Ágape');
 
       // Animate circular gauge
       const gaugeFill = document.getElementById('results-gauge-fill');
@@ -1626,9 +1674,10 @@
       
       const isCeroAmor = res.instrumentId === 'cero-amor';
       const isCeroAmorPaternal = res.instrumentId === 'cero-amor-paternal';
-      const formulaName = isCeroAmor ? 'IGA' : (isCeroAmorPaternal ? 'IVP' : 'IBA');
-      const labelIntra = isCeroAmor ? 'Intrapersonal' : (isCeroAmorPaternal ? 'V. Indirecta' : 'Autocuidado');
-      const labelInter = isCeroAmor ? 'Interpersonal' : (isCeroAmorPaternal ? 'V. Directa' : 'Vínculo');
+      const isCeroAmorMaternal = res.instrumentId === 'cero-amor-maternal';
+      const formulaName = isCeroAmor ? 'IGA' : (isCeroAmorPaternal ? 'IVP' : (isCeroAmorMaternal ? 'IVM' : 'IBA'));
+      const labelIntra = isCeroAmor ? 'Intrapersonal' : (isCeroAmorPaternal || isCeroAmorMaternal ? 'V. Indirecta' : 'Autocuidado');
+      const labelInter = isCeroAmor ? 'Interpersonal' : (isCeroAmorPaternal || isCeroAmorMaternal ? 'V. Directa' : 'Vínculo');
 
       formulaMath.innerHTML = `
         <div style="font-size: 1.05rem; font-weight: bold; margin-bottom: 0.5rem; color: #C4B5FD; font-family: monospace;">
@@ -1649,7 +1698,8 @@
       
       // Load diagnostic spec first to resolve labels
       const url = res.instrumentId === 'cero-amor' ? 'cero_amor.json' : 
-                  (res.instrumentId === 'cero-amor-paternal' ? 'cero_amor_paternal.json' : 'amor_agape.json');
+                  (res.instrumentId === 'cero-amor-paternal' ? 'cero_amor_paternal.json' : 
+                  (res.instrumentId === 'cero-amor-maternal' ? 'cero_amor_maternal.json' : 'amor_agape.json'));
       fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -1911,7 +1961,8 @@
 
       // Render answers list with questions text
       const url = exam.instrumentId === 'cero-amor' ? 'cero_amor.json' : 
-                  (exam.instrumentId === 'cero-amor-paternal' ? 'cero_amor_paternal.json' : 'amor_agape.json');
+                  (exam.instrumentId === 'cero-amor-paternal' ? 'cero_amor_paternal.json' : 
+                  (exam.instrumentId === 'cero-amor-maternal' ? 'cero_amor_maternal.json' : 'amor_agape.json'));
       fetch(url)
         .then(res => res.json())
         .then(data => {
@@ -2067,8 +2118,10 @@
 
     function generateMockAnswers(instrumentId, targetVal, seedCrisis = false) {
       const answers = {};
-      const numQuestions = instrumentId === 'cero-amor-paternal' ? 50 : 28;
-      const prefix = instrumentId === 'cero-amor-paternal' ? 'RV' : 'R';
+      const isPaternal = instrumentId === 'cero-amor-paternal';
+      const isMaternal = instrumentId === 'cero-amor-maternal';
+      const numQuestions = isPaternal ? 50 : (isMaternal ? 36 : 28);
+      const prefix = isPaternal ? 'RV' : (isMaternal ? 'RM' : 'R');
       
       for(let i = 1; i <= numQuestions; i++) {
         const qId = prefix + (i < 10 ? "0" + i : i);
@@ -2089,6 +2142,16 @@
         } else {
           for (let i = 41; i <= 50; i++) {
             answers["RV" + (i < 10 ? "0" + i : i)] = 0;
+          }
+        }
+      } else if (instrumentId === 'cero-amor-maternal') {
+        if (seedCrisis) {
+          answers["RM31"] = 2; // desaparecer
+          answers["RM34"] = 3; // fabricar delitos
+          answers["RM36"] = 2; // riesgo fisico
+        } else {
+          for (let i = 31; i <= 36; i++) {
+            answers["RM" + (i < 10 ? "0" + i : i)] = 0;
           }
         }
       } else {

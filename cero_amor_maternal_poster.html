@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Violentómetro Vicario: Cero Amor Maternal | NICÓMACO Clínica de Contacto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── BASE RESET & STYLES ──────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg:          #07070F;
+      --bg-card:     rgba(255, 255, 255, 0.03);
+      --border:      rgba(255, 255, 255, 0.08);
+      --text:        #F8F8FF;
+      --text-muted:  rgba(248, 248, 255, 0.5);
+      
+      --alerta:      #D97706;
+      --manipulacion:#EA580C;
+      --alineacion:  #DC2626;
+      --psicologica: #4F46E5;
+      --riesgo:      #991B1B;
+      --extrema:     #EF4444;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      padding: 3rem 1.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(76, 29, 149, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(220, 38, 38, 0.08) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+    /* ─── POSTER CONTAINER ─────────────────────────────────────── */
+    .poster-container {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(13, 13, 24, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3.5rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(124, 58, 237, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .poster-container::before {
+      content: '';
+      position: absolute; top: -10%; left: -10%; width: 120%; height: 120%;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ─── HEADER ───────────────────────────────────────────────── */
+    header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+      position: relative;
+      z-index: 2;
+    }
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .logo-img {
+      height: 64px;
+      width: auto;
+      filter: drop-shadow(0 0 12px rgba(124, 58, 237, 0.4));
+    }
+    .logo-brand {
+      font-size: 1.3rem; font-weight: 700; letter-spacing: 0.12em;
+      background: linear-gradient(90deg, #7C3AED 0%, #10B981 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .logo-sub {
+      font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .poster-title {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      color: #E2E8F0;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+    .poster-subtitle {
+      font-size: 1.1rem;
+      color: #7C3AED;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+    .poster-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ─── VIOLENTOMETER GRID ───────────────────────────────────── */
+    .violentometro-grid {
+      display: grid;
+      grid-template-columns: 200px auto;
+      gap: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Left Alerts Column */
+    .alerts-column {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px dashed rgba(255, 255, 255, 0.1);
+      padding-right: 1.5rem;
+      text-align: right;
+    }
+    .alert-block {
+      position: sticky;
+      top: 100px;
+      margin-bottom: 6rem;
+    }
+    .alert-block:last-child {
+      margin-bottom: 0;
+    }
+    .alert-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      font-family: 'Playfair Display', serif;
+    }
+    .alert-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    
+    .alert-block.alerta-alert .alert-title { color: var(--alerta); }
+    .alert-block.manipulacion-alert .alert-title { color: var(--manipulacion); }
+    .alert-block.alineacion-alert .alert-title { color: var(--alineacion); }
+    .alert-block.psicologica-alert .alert-title { color: #A5B4FC; }
+    .alert-block.riesgo-alert .alert-title { color: #FCA5A5; }
+    .alert-block.extrema-alert .alert-title { color: var(--extrema); font-weight: 900; text-transform: uppercase; animation: pulse 2s infinite; }
+    
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
+
+    /* Right Scale Column */
+    .scale-column {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .scale-row {
+      display: flex;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+    .scale-row:hover {
+      transform: translateX(4px);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .scale-num {
+      font-size: 0.85rem;
+      font-weight: 700;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1.25rem;
+      flex-shrink: 0;
+      color: #FFF;
+      font-family: monospace;
+    }
+    .scale-content {
+      flex: 1;
+    }
+    .scale-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+    }
+    .scale-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Colors and borders by zone */
+    .scale-row.zone-alerta { border-left: 4px solid var(--alerta); }
+    .scale-row.zone-alerta .scale-num { background: var(--alerta); box-shadow: 0 0 10px rgba(217, 119, 6, 0.3); }
+    .scale-row.zone-alerta .scale-name { color: #FBBF24; }
+    
+    .scale-row.zone-manipulacion { border-left: 4px solid var(--manipulacion); }
+    .scale-row.zone-manipulacion .scale-num { background: var(--manipulacion); box-shadow: 0 0 10px rgba(234, 88, 12, 0.3); }
+    .scale-row.zone-manipulacion .scale-name { color: #FB923C; }
+    
+    .scale-row.zone-alineacion { border-left: 4px solid var(--alineacion); }
+    .scale-row.zone-alineacion .scale-num { background: var(--alineacion); box-shadow: 0 0 10px rgba(220, 38, 38, 0.3); }
+    .scale-row.zone-alineacion .scale-name { color: #F87171; }
+    
+    .scale-row.zone-psicologica { border-left: 4px solid var(--psicologica); background: rgba(79, 70, 229, 0.08); }
+    .scale-row.zone-psicologica .scale-num { background: var(--psicologica); box-shadow: 0 0 10px rgba(79, 70, 229, 0.3); }
+    .scale-row.zone-psicologica .scale-name { color: #818CF8; }
+    
+    .scale-row.zone-riesgo { border-left: 4px solid var(--riesgo); background: rgba(153, 27, 27, 0.08); }
+    .scale-row.zone-riesgo .scale-num { background: var(--riesgo); box-shadow: 0 0 10px rgba(153, 27, 27, 0.5); }
+    .scale-row.zone-riesgo .scale-name { color: #FCA5A5; }
+    
+    .scale-row.zone-extrema { border-left: 4px solid #EF4444; background: rgba(0, 0, 0, 0.6); border-top: 1px solid rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    .scale-row.zone-extrema .scale-num { background: #000; color: #EF4444; border: 1px solid #EF4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+    .scale-row.zone-extrema .scale-name { color: #EF4444; font-weight: 850; text-transform: uppercase; letter-spacing: 0.02em; }
+
+    /* ─── FOOTER ───────────────────────────────────────────────── */
+    footer {
+      margin-top: 3.5rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      position: relative;
+      z-index: 2;
+    }
+    .print-btn {
+      margin-top: 2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .print-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(124, 58, 237, 0.4);
+    }
+
+    /* ─── RESPONSIVE ───────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .poster-container { padding: 2rem 1.25rem; }
+      .violentometro-grid { grid-template-columns: 1fr; }
+      .alerts-column { display: none; }
+      .scale-row { padding: 0.5rem 0.75rem; }
+      .scale-num { margin-right: 0.75rem; }
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      .poster-container { box-shadow: none; border: none; padding: 0; width: 100%; max-width: 100%; background: white; }
+      .scale-row { page-break-inside: avoid; border: 1px solid #ddd; background: white !important; color: black; }
+      .print-btn { display: none; }
+      .scale-row.zone-alerta { border-left: 6px solid var(--alerta) !important; }
+      .scale-row.zone-manipulacion { border-left: 6px solid var(--manipulacion) !important; }
+      .scale-row.zone-alineacion { border-left: 6px solid var(--alineacion) !important; }
+      .scale-row.zone-psicologica { border-left: 6px solid var(--psicologica) !important; }
+      .scale-row.zone-riesgo { border-left: 6px solid var(--riesgo) !important; }
+      .scale-row.zone-extrema { border-left: 6px solid var(--extrema) !important; background: #111 !important; color: white !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="poster-container">
+    <!-- ═══ HEADER ═══ -->
+    <header>
+      <div class="logo-container">
+        <img src="img/logo.png" alt="Logo NICÓMACO" class="logo-img" onerror="this.src='Modelo-amoragape.png'">
+        <span class="logo-brand">NICÓMACO</span>
+        <span class="logo-sub">Clínica de Contacto®</span>
+      </div>
+      <h1 class="poster-title">CERO AMOR MATERNAL</h1>
+      <div class="poster-subtitle">Violentómetro Vicario de la Madre</div>
+      <p class="poster-desc">
+        Herramienta diagnóstica de datos compilatorios que visibiliza la escala progresiva de maltrato ejercido por la madre que utiliza a sus hijos e hijas como instrumento para infligir el máximo dolor emocional e irreversible al padre.
+      </p>
+    </header>
+
+    <!-- ═══ VIOLENTOMETER GRID ═══ -->
+    <div class="violentometro-grid">
+      
+      <!-- Left side alerts -->
+      <div class="alerts-column">
+        <div class="alert-block alerta-alert" style="margin-top: 1rem;">
+          <div class="alert-title">¡Alertas Tempranas!</div>
+          <div class="alert-desc">Comentarios negativos, descalificaciones del rol paterno e incumplimiento sutil de convivencias.</div>
+        </div>
+        
+        <div class="alert-block manipulacion-alert" style="margin-top: 8rem;">
+          <div class="alert-title">¡Manipulación Emocional!</div>
+          <div class="alert-desc">Inculcar sentimientos de culpa en los niños, exigir lealtad exclusiva y usarlos como espías.</div>
+        </div>
+        
+        <div class="alert-block alineacion-alert" style="margin-top: 9rem;">
+          <div class="alert-title">¡Alineación Familiar!</div>
+          <div class="alert-desc">Campañas de desprestigio ante conocidos, bloqueo constante de visitas e invención de historias de abandono.</div>
+        </div>
+        
+        <div class="alert-block psicologica-alert" style="margin-top: 10rem;">
+          <div class="alert-title">¡Violencia Psicológica Grave!</div>
+          <div class="alert-desc">Uso de los hijos como mensajeros de amenazas, inducir desprecio permanente y falsas denuncias.</div>
+        </div>
+        
+        <div class="alert-block riesgo-alert" style="margin-top: 9rem;">
+          <div class="alert-title">¡Riesgo Alto Niñez!</div>
+          <div class="alert-desc">Sustracción u ocultamiento de los menores, cambios de domicilio sin informar y manipulación judicial de testimonios.</div>
+        </div>
+        
+        <div class="alert-block extrema-alert" style="margin-top: 9rem; margin-bottom: 2rem;">
+          <div class="alert-title">¡Violencia Extrema!</div>
+          <div class="alert-desc">Amenazas de desaparición definitiva, fabricación de cargos penales graves y exposición física a peligros.</div>
+        </div>
+      </div>
+
+      <!-- Right side scale -->
+      <div class="scale-column" id="scale-list">
+        <!-- RENDERED BY JAVASCRIPT DYNAMICALLY -->
+      </div>
+
+    </div>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer>
+      <p>©2026 Blanca Estela Angulo López · Todos los Derechos Reservados</p>
+      <p>Clínica de Contacto NICÓMACO® · Programa de Apoyo Psicológico y Registro de Herramientas Compilatorias</p>
+      <p>Reg. No. 03-2026-06101140-02 (Cero Amor Maternal)</p>
+      <button class="print-btn" onclick="window.print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:0.3rem;"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+        Imprimir Póster
+      </button>
+    </footer>
+
+  </div>
+
+  <script>
+    const levels = [
+      { num: 1, zone: 'alerta', name: "Hablar mal del padre", desc: "Hablar constantemente mal del padre frente a los hijos." },
+      { num: 2, zone: 'alerta', name: "Ridiculizar capacidades", desc: "Ridiculizar sus capacidades parentales." },
+      { num: 3, zone: 'alerta', name: "Impedir llamadas", desc: "Impedir llamadas o mensajes sin justificación." },
+      { num: 4, zone: 'alerta', name: "Ocultar información", desc: "Ocultar información escolar o médica." },
+      { num: 5, zone: 'alerta', name: "Ignorar convivencias", desc: "Ignorar acuerdos de convivencia." },
+      { num: 6, zone: 'alerta', name: "Desacreditar con sarcasmos", desc: "Utilizar sarcasmos para desacreditarlo." },
+      
+      { num: 7, zone: 'manipulacion', name: "Generar culpa por convivir", desc: "Hacer sentir culpa a los hijos por convivir con el padre." },
+      { num: 8, zone: 'manipulacion', name: "Premiar rechazo al padre", desc: "Premiar el rechazo hacia el padre." },
+      { num: 9, zone: 'manipulacion', name: "Hijos como espías", desc: "Solicitar a los hijos que vigilen o reporten actividades del padre." },
+      { num: 10, zone: 'manipulacion', name: "Única figura de afecto", desc: "Presentarse como única figura válida de afecto." },
+      { num: 11, zone: 'manipulacion', name: "Exagerar conflictos", desc: "Exagerar conflictos para generar miedo." },
+      { num: 12, zone: 'manipulacion', name: "Obligar a elegir bando", desc: "Hacer que los hijos elijan entre ambos progenitores." },
+      
+      { num: 13, zone: 'alineacion', name: "Acusaciones sin sustento", desc: "Difundir acusaciones sin sustento ante familiares." },
+      { num: 14, zone: 'alineacion', name: "Bloqueo sistemático", desc: "Bloquear sistemáticamente convivencias." },
+      { num: 15, zone: 'alineacion', name: "Descalificar regalos", desc: "Descalificar regalos o muestras de cariño del padre." },
+      { num: 16, zone: 'alineacion', name: "Bloquear eventos escolares", desc: "Impedir participación en eventos escolares." },
+      { num: 17, zone: 'alineacion', name: "Decir que no los ama", desc: "Convencer a los hijos de que el padre no los ama." },
+      { num: 18, zone: 'alineacion', name: "Narrativas de abandono", desc: "Crear narrativas de abandono inexistentes." },
+      
+      { num: 19, zone: 'psicologica', name: "Hijos mensajeros de amenazas", desc: "Utilizar a los hijos como mensajeros de amenazas." },
+      { num: 20, zone: 'psicologica', name: "Inducir rechazo permanente", desc: "Inducir rechazo permanente hacia el padre." },
+      { num: 21, zone: 'psicologica', name: "Generar miedo injustificado", desc: "Generar miedo injustificado hacia él." },
+      { num: 22, zone: 'psicologica', name: "Ocultar salud o educación", desc: "Ocultar información importante sobre salud o educación." },
+      { num: 23, zone: 'psicologica', name: "Denuncias falsas preventivas", desc: "Interponer denuncias falsas con fines de separación parental." },
+      { num: 24, zone: 'psicologica', name: "Impedir contacto prolongado", desc: "Impedir el contacto por largos periodos." },
+      
+      { num: 25, zone: 'riesgo', name: "Sustraer u ocultar hijos", desc: "Sustraer u ocultar a los hijos para impedir convivencia." },
+      { num: 26, zone: 'riesgo', name: "Mudar de casa sin avisar", desc: "Cambiar de domicilio sin informar." },
+      { num: 27, zone: 'riesgo', name: "Manipular testimonios", desc: "Manipular testimonios de menores en procesos judiciales." },
+      { num: 28, zone: 'riesgo', name: "Odio o desprecio persistente", desc: "Fomentar odio o desprecio persistente." },
+      { num: 29, zone: 'riesgo', name: "Extorsión emocional", desc: "Utilizar a los hijos para extorsionar emocionalmente." },
+      { num: 30, zone: 'riesgo', name: "Obstruir sentencias de visitas", desc: "Obstaculizar resoluciones judiciales de convivencia." },
+      
+      { num: 31, zone: 'extrema', name: "Amenzar con desaparecer hijos", desc: "Amenzar con desaparecer a los hijos." },
+      { num: 32, zone: 'extrema', name: "Daño psicológico severo", desc: "Utilizar a los menores para causar daño psicológico severo." },
+      { num: 33, zone: 'extrema', name: "Exposición a pleitos judiciales", desc: "Exponer a los hijos a conflictos judiciales deliberadamente." },
+      { num: 34, zone: 'extrema', name: "Fabricar delitos graves", desc: "Fabricar acusaciones graves para romper vínculos parentales." },
+      { num: 35, zone: 'extrema', name: "Aislamiento total del padre", desc: "Promover aislamiento total del padre." },
+      { num: 36, zone: 'extrema', name: "Exposición física a riesgos", desc: "Colocar a los hijos en situaciones de riesgo para perjudicar al otro progenitor." }
+    ];
+
+    const listContainer = document.getElementById('scale-list');
+    
+    levels.forEach(lvl => {
+      const row = document.createElement('div');
+      row.className = `scale-row zone-${lvl.zone}`;
+      row.innerHTML = `
+        <span class="scale-num">${lvl.num}</span>
+        <div class="scale-content">
+          <div class="scale-name">${lvl.name}</div>
+          <div class="scale-desc">${lvl.desc}</div>
+        </div>
+      `;
+      listContainer.appendChild(row);
+    });
+  </script>
+</body>
+</html>

@@ -33,12 +33,23 @@ import { SURVEY_QUESTIONS, SCORE_ZONES, EMOTIONAL_EXERCISES, Question, ScoreZone
 import { FLUTTER_CODE_PROTOTYPE } from './flutter_code';
 
 // ADAPTIVE FLOW ENGINE helper to rebuild active question sequence dynamically based on answers
-export function getActiveQuestionsForAnswers(currentAnswers: Record<string, number>): Question[] {
+export function getActiveQuestionsForAnswers(
+  questionsList: Question[], 
+  currentAnswers: Record<string, number>,
+  surveyId?: string
+): Question[] {
+  if (!questionsList || questionsList.length === 0) return [];
+  
+  if (surveyId && surveyId !== 'cero-amor') {
+    // Return all questions sequentially for other surveys
+    return questionsList;
+  }
+
   // Base Phase: The first 10 questions of Domain 1 (Q01 - Q10)
-  const baseQuestions = SURVEY_QUESTIONS.filter(q => q.dominio === 1).slice(0, 10);
-  const allDom1 = SURVEY_QUESTIONS.filter(q => q.dominio === 1);
-  const allDom2 = SURVEY_QUESTIONS.filter(q => q.dominio === 2);
-  const allDom3 = SURVEY_QUESTIONS.filter(q => q.dominio === 3);
+  const baseQuestions = questionsList.filter(q => q.dominio === 1).slice(0, 10);
+  const allDom1 = questionsList.filter(q => q.dominio === 1);
+  const allDom2 = questionsList.filter(q => q.dominio === 2);
+  const allDom3 = questionsList.filter(q => q.dominio === 3);
 
   // Check if the base questions of Domain 1 are all answered
   let finishedBase = true;
@@ -115,15 +126,70 @@ export default function App() {
   
   // App Workspace State
   const [surveyData, setSurveyData] = useState<any>(null);
+  const [questions, setQuestions] = useState<Question[]>(SURVEY_QUESTIONS);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const surveyIdParam = params.get('survey');
+
     fetch('/api/surveys')
       .then(res => res.json())
       .then(data => {
-        if (data && data.length > 0) setSurveyData(data[0]);
+        if (data && data.length > 0) {
+          const selected = surveyIdParam 
+            ? data.find((s: any) => s.id === surveyIdParam) 
+            : data[0];
+          setSurveyData(selected || data[0]);
+        }
       })
       .catch(e => console.error("Could not load surveys:", e));
   }, []);
+
+  useEffect(() => {
+    if (!surveyData) return;
+    
+    if (surveyData.id === 'cero-amor') {
+      setQuestions(SURVEY_QUESTIONS);
+    } else {
+      const jsonUrl = surveyData.id === 'cero-amor-paternal' ? '/cero_amor_paternal.json' :
+                      surveyData.id === 'cero-amor-maternal' ? '/cero_amor_maternal.json' :
+                      '/amor_agape.json';
+                      
+      fetch(jsonUrl)
+        .then(res => res.json())
+        .then(json => {
+          if (json && json.reactivos) {
+            const mapped: Question[] = json.reactivos.map((r: any, idx: number) => {
+              // Determine domain
+              const domWeight = r.weights.find((w: any) => w.dimension_id.startsWith('dom_'));
+              const domainId = domWeight ? domWeight.dimension_id : '';
+              const dominio = domainId.includes('directa') || domainId.includes('inter') ? 2 : 1;
+              
+              // Determine level
+              const nivel = idx + 1;
+              
+              // Determine category
+              const dimWeight = r.weights.find((w: any) => w.dimension_id.startsWith('dim_'));
+              const category = dimWeight ? dimWeight.dimension_id : 'General';
+              
+              return {
+                id: r.id,
+                dominio: dominio as any,
+                nivel: nivel,
+                categoria: category,
+                tipo: 'Directo',
+                pregunta: r.statement
+              };
+            });
+            setQuestions(mapped);
+          }
+        })
+        .catch(e => {
+          console.error("Could not load survey questions:", e);
+          setQuestions([]);
+        });
+    }
+  }, [surveyData]);
   // App Workspace State
   const [userEmail, setUserEmail] = useState('contacto@paciente.nicomaco.org');
   const [userName, setUserName] = useState('Paciente Demo');
@@ -152,8 +218,8 @@ export default function App() {
 
   // ADAPTIVE FLOW ENGINE: Rebuild active question sequence dynamically
   const activeQuestions = useMemo(() => {
-    return getActiveQuestionsForAnswers(answers);
-  }, [answers]);
+    return getActiveQuestionsForAnswers(questions, answers, surveyData?.id);
+  }, [questions, answers, surveyData]);
 
   const currentQuestion: Question | undefined = activeQuestions[currentQuestionIndex];
 
@@ -167,16 +233,68 @@ export default function App() {
       maxPossiblePoints += 3;
     });
 
-    const scaledScore = maxPossiblePoints > 0 
-      ? Math.round((earnedPoints / maxPossiblePoints) * 186) 
-      : 0;
+    const isAutoviolence = surveyData?.id === 'cero-amor';
+    const scaledScore = isAutoviolence
+      ? (maxPossiblePoints > 0 ? Math.round((earnedPoints / maxPossiblePoints) * 186) : 0)
+      : earnedPoints;
 
-    // Match calculated score to defined zones
-    let matchedZone: ScoreZone = SCORE_ZONES[0];
-    if (scaledScore <= 30) matchedZone = SCORE_ZONES[0];
-    else if (scaledScore <= 75) matchedZone = SCORE_ZONES[1];
-    else if (scaledScore <= 130) matchedZone = SCORE_ZONES[2];
-    else matchedZone = SCORE_ZONES[3];
+    const getZoneColor = (name: string) => {
+      const n = name.toUpperCase();
+      if (n.includes('VERDE')) return '#10B981';
+      if (n.includes('AMARILLA') || n.includes('ALERTA') || n.includes('ZONA 1')) return '#D97706';
+      if (n.includes('MANIPULACIÓN') || n.includes('ZONA 2')) return '#EA580C';
+      if (n.includes('ROJA') || n.includes('ALINEACIÓN') || n.includes('ZONA 3')) return '#DC2626';
+      if (n.includes('CRÍTICA') || n.includes('PSICÓLOGICA') || n.includes('ZONA 4')) return '#312E81';
+      if (n.includes('GRAVE') || n.includes('ZONA 5')) return '#991B1B';
+      if (n.includes('EXTREMA') || n.includes('ZONA 6')) return '#000000';
+      return '#7C3AED';
+    };
+
+    let matchedZone = {
+      name: 'Sin clasificación',
+      description: 'Cargando análisis...',
+      color: '#7C3AED',
+      guidelines: ['Consolidación del amor propio incondicional y prevención primaria.'],
+      clinicalApproach: 'Consolidación del amor propio incondicional y prevención primaria.'
+    };
+
+    if (isAutoviolence) {
+      let matchedStaticZone: ScoreZone = SCORE_ZONES[0];
+      if (scaledScore <= 30) matchedStaticZone = SCORE_ZONES[0];
+      else if (scaledScore <= 75) matchedStaticZone = SCORE_ZONES[1];
+      else if (scaledScore <= 130) matchedStaticZone = SCORE_ZONES[2];
+      else matchedStaticZone = SCORE_ZONES[3];
+
+      matchedZone = {
+        name: matchedStaticZone.name,
+        description: matchedStaticZone.description,
+        color: matchedStaticZone.color,
+        guidelines: matchedStaticZone.guidelines,
+        clinicalApproach: matchedStaticZone.clinicalApproach
+      };
+    } else if (surveyData && surveyData.levels && surveyData.levels.length > 0) {
+      const sorted = [...surveyData.levels].sort((a: any, b: any) => a.minScore - b.minScore);
+      const match = sorted.find((lvl: any) => scaledScore >= lvl.minScore && scaledScore <= lvl.maxScore);
+      if (match) {
+        matchedZone = {
+          name: match.name,
+          description: match.description || '',
+          color: getZoneColor(match.name),
+          guidelines: [match.clinicalApproach || 'Seguir indicaciones de Clínica NICÓMACO.'],
+          clinicalApproach: match.clinicalApproach || ''
+        };
+      } else {
+        // Fallback to last
+        const lastLvl = sorted[sorted.length - 1];
+        matchedZone = {
+          name: lastLvl.name,
+          description: lastLvl.description || '',
+          color: getZoneColor(lastLvl.name),
+          guidelines: [lastLvl.clinicalApproach || 'Seguir indicaciones de Clínica NICÓMACO.'],
+          clinicalApproach: lastLvl.clinicalApproach || ''
+        };
+      }
+    }
 
     return {
       earnedPoints,
@@ -184,7 +302,7 @@ export default function App() {
       scaledScore,
       matchedZone
     };
-  }, [answers]);
+  }, [answers, surveyData, questions]);
 
   const saveResult = async (finalAnswers: Record<string, number>, finalScore: number, finalZone: string) => {
     if (!surveyData) return;
@@ -212,27 +330,37 @@ export default function App() {
     const newAnswers = { ...answers, [currentQuestion.id]: score };
     setAnswers(newAnswers);
 
+    const isAutoviolence = surveyData?.id === 'cero-amor';
+    const isCriticalTrigger = isAutoviolence
+      ? (currentQuestion.dominio === 3 && score >= 2)
+      : (currentQuestion.dominio === 2 && score >= 2);
+
     // CRITICAL QUESTION RULE:
     // "Si el usuario selecciona 2 o 3 en cualquier reactivo del Dominio 3, se detona el protocolo SOS de emergencia inminente."
-    if (currentQuestion.dominio === 3 && score >= 2) {
+    if (isCriticalTrigger) {
       setTriggeringQuestion(currentQuestion);
       
       const earned = (Object.values(newAnswers) as number[]).reduce((a: number, b: number) => a + b, 0);
-      const maxPossible = Object.keys(newAnswers).length * 3;
-      const scaled = Math.round((earned / maxPossible) * 186);
-      let matchedZone = SCORE_ZONES[0];
-      if (scaled <= 30) matchedZone = SCORE_ZONES[0];
-      else if (scaled <= 75) matchedZone = SCORE_ZONES[1];
-      else if (scaled <= 130) matchedZone = SCORE_ZONES[2];
-      else matchedZone = SCORE_ZONES[3];
+      let matchedZoneName = 'Crítica';
       
-      saveResult(newAnswers, scaled, matchedZone.name);
+      if (isAutoviolence) {
+        const maxPossible = Object.keys(newAnswers).length * 3;
+        const scaled = Math.round((earned / maxPossible) * 186);
+        let matchedZone = SCORE_ZONES[3];
+        saveResult(newAnswers, scaled, matchedZone.name);
+      } else if (surveyData) {
+        const sorted = [...surveyData.levels].sort((a: any, b: any) => a.minScore - b.minScore);
+        const lastLvl = sorted[sorted.length - 1];
+        matchedZoneName = lastLvl.name;
+        saveResult(newAnswers, earned, matchedZoneName);
+      }
+      
       setCurrentScreen('sos');
       return;
     }
 
     // Determine what the active questions are based on the NEW answers
-    const nextActiveQuestions = getActiveQuestionsForAnswers(newAnswers);
+    const nextActiveQuestions = getActiveQuestionsForAnswers(questions, newAnswers, surveyData?.id);
 
     // Move to next question or evaluate finish
     if (currentQuestionIndex < nextActiveQuestions.length - 1) {
@@ -240,28 +368,53 @@ export default function App() {
     } else {
       // Completed last question. Check for high composite score redirection to SOS
       const earned = (Object.values(newAnswers) as number[]).reduce((a: number, b: number) => a + b, 0);
-      const maxPossible = Object.keys(newAnswers).length * 3;
-      const scaled = Math.round((earned / maxPossible) * 186);
       
-      let matchedZone = SCORE_ZONES[0];
-      if (scaled <= 30) matchedZone = SCORE_ZONES[0];
-      else if (scaled <= 75) matchedZone = SCORE_ZONES[1];
-      else if (scaled <= 130) matchedZone = SCORE_ZONES[2];
-      else matchedZone = SCORE_ZONES[3];
+      if (isAutoviolence) {
+        const maxPossible = Object.keys(newAnswers).length * 3;
+        const scaled = Math.round((earned / maxPossible) * 186);
+        
+        let matchedZone = SCORE_ZONES[0];
+        if (scaled <= 30) matchedZone = SCORE_ZONES[0];
+        else if (scaled <= 75) matchedZone = SCORE_ZONES[1];
+        else if (scaled <= 130) matchedZone = SCORE_ZONES[2];
+        else matchedZone = SCORE_ZONES[3];
 
-      if (scaled >= 131) {
-        // High composite score (Zona Crítica) - find first critical question in Dom 3 answered >= 2 or default
-        const firstCritQId = Object.entries(newAnswers).find(([id, val]) => {
-          const q = SURVEY_QUESTIONS.find(sq => sq.id === id);
-          return q && q.dominio === 3 && (val as number) >= 2;
-        })?.[0];
-        const firstCritQ = firstCritQId ? SURVEY_QUESTIONS.find(q => q.id === firstCritQId) : SURVEY_QUESTIONS.find(q => q.id === 'Q55');
-        setTriggeringQuestion(firstCritQ || SURVEY_QUESTIONS.find(q => q.id === 'Q55') || null);
-        saveResult(newAnswers, scaled, matchedZone.name);
-        setCurrentScreen('sos');
-      } else {
-        saveResult(newAnswers, scaled, matchedZone.name);
-        setCurrentScreen('results');
+        if (scaled >= 131) {
+          // High composite score (Zona Crítica) - find first critical question in Dom 3 answered >= 2 or default
+          const firstCritQId = Object.entries(newAnswers).find(([id, val]) => {
+            const q = questions.find(sq => sq.id === id);
+            return q && q.dominio === 3 && (val as number) >= 2;
+          })?.[0];
+          const firstCritQ = firstCritQId ? questions.find(q => q.id === firstCritQId) : questions.find(q => q.id === 'Q55');
+          setTriggeringQuestion(firstCritQ || questions.find(q => q.id === 'Q55') || null);
+          saveResult(newAnswers, scaled, matchedZone.name);
+          setCurrentScreen('sos');
+        } else {
+          saveResult(newAnswers, scaled, matchedZone.name);
+          setCurrentScreen('results');
+        }
+      } else if (surveyData) {
+        // Other survey finished
+        const sorted = [...surveyData.levels].sort((a: any, b: any) => a.minScore - b.minScore);
+        const match = sorted.find((lvl: any) => earned >= lvl.minScore && earned <= lvl.maxScore);
+        const matchedZoneName = match ? match.name : sorted[0].name;
+        
+        const lastLvl = sorted[sorted.length - 1];
+        const isLastZone = match && match.id === lastLvl.id;
+        
+        if (isLastZone) {
+          const firstCritQId = Object.entries(newAnswers).find(([id, val]) => {
+            const q = questions.find(sq => sq.id === id);
+            return q && q.dominio === 2 && (val as number) >= 2;
+          })?.[0];
+          const firstCritQ = firstCritQId ? questions.find(q => q.id === firstCritQId) : questions[questions.length - 1];
+          setTriggeringQuestion(firstCritQ || null);
+          saveResult(newAnswers, earned, matchedZoneName);
+          setCurrentScreen('sos');
+        } else {
+          saveResult(newAnswers, earned, matchedZoneName);
+          setCurrentScreen('results');
+        }
       }
     }
   };
@@ -762,14 +915,14 @@ export default function App() {
                             strokeWidth="6" 
                             fill="transparent" 
                             strokeDasharray={263.8}
-                            strokeDashoffset={263.8 - (263.8 * scoreResults.scaledScore) / 186}
+                            strokeDashoffset={263.8 - (263.8 * scoreResults.scaledScore) / (surveyData?.id === 'cero-amor' ? 186 : (questions.length * 3))}
                             strokeLinecap="round"
                             className="transition-all duration-1000"
                           />
                         </svg>
                         <div className="text-center">
                           <span className={`text-4xl md:text-6xl font-bold font-serif ${isDarkMode ? 'text-white' : 'text-zinc-900'}`}>{scoreResults.scaledScore}</span>
-                          <span className={`text-xs md:text-sm block border-t mt-2 pt-2 font-mono ${isDarkMode ? 'text-white/40 border-white/10' : 'text-zinc-500 border-zinc-200'}`}>de 186 pts</span>
+                          <span className={`text-xs md:text-sm block border-t mt-2 pt-2 font-mono ${isDarkMode ? 'text-white/40 border-white/10' : 'text-zinc-500 border-zinc-200'}`}>de {surveyData?.id === 'cero-amor' ? 186 : (questions.length * 3)} pts</span>
                         </div>
                       </div>
 
