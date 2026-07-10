@@ -36,11 +36,13 @@ import { FLUTTER_CODE_PROTOTYPE } from './flutter_code';
 export function getActiveQuestionsForAnswers(
   questionsList: Question[], 
   currentAnswers: Record<string, number>,
-  surveyId?: string
+  surveyId?: string,
+  surveyName?: string
 ): Question[] {
   if (!questionsList || questionsList.length === 0) return [];
   
-  if (surveyId && surveyId !== 'cero-amor') {
+  const isAutoviolence = surveyId === 'cero-amor' || surveyName === 'Autoviolentómetro: Cero Amor';
+  if (surveyId && !isAutoviolence) {
     // Return all questions sequentially for other surveys
     return questionsList;
   }
@@ -148,11 +150,15 @@ export default function App() {
   useEffect(() => {
     if (!surveyData) return;
     
-    if (surveyData.id === 'cero-amor') {
+    const isAutoviolence = surveyData.id === 'cero-amor' || surveyData.name === 'Autoviolentómetro: Cero Amor';
+    if (isAutoviolence) {
       setQuestions(SURVEY_QUESTIONS);
     } else {
-      const jsonUrl = surveyData.id === 'cero-amor-paternal' ? '/cero_amor_paternal.json' :
-                      surveyData.id === 'cero-amor-maternal' ? '/cero_amor_maternal.json' :
+      const isPaternal = surveyData.id === 'cero-amor-paternal' || surveyData.name.includes('Paternal');
+      const isMaternal = surveyData.id === 'cero-amor-maternal' || surveyData.name.includes('Maternal');
+      
+      const jsonUrl = isPaternal ? '/cero_amor_paternal.json' :
+                      isMaternal ? '/cero_amor_maternal.json' :
                       '/amor_agape.json';
                       
       fetch(jsonUrl)
@@ -218,7 +224,7 @@ export default function App() {
 
   // ADAPTIVE FLOW ENGINE: Rebuild active question sequence dynamically
   const activeQuestions = useMemo(() => {
-    return getActiveQuestionsForAnswers(questions, answers, surveyData?.id);
+    return getActiveQuestionsForAnswers(questions, answers, surveyData?.id, surveyData?.name);
   }, [questions, answers, surveyData]);
 
   const currentQuestion: Question | undefined = activeQuestions[currentQuestionIndex];
@@ -233,7 +239,7 @@ export default function App() {
       maxPossiblePoints += 3;
     });
 
-    const isAutoviolence = surveyData?.id === 'cero-amor';
+    const isAutoviolence = surveyData?.id === 'cero-amor' || surveyData?.name === 'Autoviolentómetro: Cero Amor';
     const scaledScore = isAutoviolence
       ? (maxPossiblePoints > 0 ? Math.round((earnedPoints / maxPossiblePoints) * 186) : 0)
       : earnedPoints;
@@ -330,7 +336,7 @@ export default function App() {
     const newAnswers = { ...answers, [currentQuestion.id]: score };
     setAnswers(newAnswers);
 
-    const isAutoviolence = surveyData?.id === 'cero-amor';
+    const isAutoviolence = surveyData?.id === 'cero-amor' || surveyData?.name === 'Autoviolentómetro: Cero Amor';
     const isCriticalTrigger = isAutoviolence
       ? (currentQuestion.dominio === 3 && score >= 2)
       : (currentQuestion.dominio === 2 && score >= 2);
@@ -360,7 +366,7 @@ export default function App() {
     }
 
     // Determine what the active questions are based on the NEW answers
-    const nextActiveQuestions = getActiveQuestionsForAnswers(questions, newAnswers, surveyData?.id);
+    const nextActiveQuestions = getActiveQuestionsForAnswers(questions, newAnswers, surveyData?.id, surveyData?.name);
 
     // Move to next question or evaluate finish
     if (currentQuestionIndex < nextActiveQuestions.length - 1) {
