@@ -48,6 +48,15 @@ export function AdminApp() {
     );
   }
 
+  const getLinkClass = (path: string) => {
+    const isActive = location.pathname === path || (path === '/admin' && location.pathname === '/admin/');
+    return `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+      isActive 
+        ? 'bg-[#F3F4F6] text-[#7C3AED] font-semibold' 
+        : 'text-gray-600 hover:bg-[#F3F4F6] hover:text-[#7C3AED]'
+    }`;
+  };
+
   return (
     <div className="flex h-screen bg-[#F8F8FF] text-[#07070F] font-inter">
       {/* Sidebar */}
@@ -60,23 +69,23 @@ export function AdminApp() {
         </div>
         
         <nav className="flex-1 p-4 space-y-1">
-          <Link to="/admin" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#F3F4F6] text-[#7C3AED] font-medium transition-colors">
+          <Link to="/admin" className={getLinkClass('/admin')}>
             <LayoutDashboard size={20} />
             Dashboard
           </Link>
-          <Link to="/admin/surveys" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-[#F3F4F6] hover:text-[#7C3AED] transition-colors">
+          <Link to="/admin/surveys" className={getLinkClass('/admin/surveys')}>
             <FileText size={20} />
             Violentómetros
           </Link>
-          <Link to="/admin/results" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-[#F3F4F6] hover:text-[#7C3AED] transition-colors">
+          <Link to="/admin/results" className={getLinkClass('/admin/results')}>
             <BarChart size={20} />
             Resultados
           </Link>
-          <Link to="/admin/users" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-[#F3F4F6] hover:text-[#7C3AED] transition-colors">
+          <Link to="/admin/users" className={getLinkClass('/admin/users')}>
             <Users size={20} />
             Usuarios
           </Link>
-          <Link to="/admin/settings" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-[#F3F4F6] hover:text-[#7C3AED] transition-colors">
+          <Link to="/admin/settings" className={getLinkClass('/admin/settings')}>
             <Settings size={20} />
             Configuración
           </Link>

@@ -85,6 +85,77 @@ async function main() {
   } else {
     console.log('Survey already exists, skipping creation.');
   }
+
+  // Seeding Cero Amor Paternal
+  const existingPaternalSurvey = await prisma.survey.findFirst({
+    where: { name: 'Cero Amor Paternal (Violentómetro Vicario)' }
+  });
+
+  if (!existingPaternalSurvey) {
+    const survey = await prisma.survey.create({
+      data: {
+        id: 'cero-amor-paternal',
+        name: 'Cero Amor Paternal (Violentómetro Vicario)',
+        description: 'Herramienta diagnóstica de datos compilatorios sobre la violencia vicaria ejercida por el padre hacia la madre a través de sus hijos.',
+        adaptiveRules: {
+          condition: {
+            domain: 1,
+            questions: ['RV01', 'RV02', 'RV03', 'RV04', 'RV05', 'RV06', 'RV07', 'RV08', 'RV09', 'RV10'],
+            operator: '<',
+            value: 3
+          },
+          action: {
+            type: 'skip_domain',
+            targetDomainToSkip: 2,
+            jumpToDomain: 3,
+            description: 'Si la suma de Dom 1 es < 3, salta a Dom 3'
+          }
+        },
+        levels: {
+          create: [
+            {
+              name: 'Zona 1: ¡Alerta!',
+              minScore: 0,
+              maxScore: 30,
+              description: '¡Presta atención! La violencia vicaria inicia sutilmente con descalificaciones de la madre y manipulación inicial.',
+              clinicalApproach: 'Establece límites firmes y busca asesoría temprana.'
+            },
+            {
+              name: 'Zona 2: ¡Psicológica y Emocional!',
+              minScore: 31,
+              maxScore: 60,
+              description: '¡Reacciona! Hay campañas de alienación activas, amenazas sobre la custodia y sabotajes en la comunicación.',
+              clinicalApproach: 'Es crucial contar con terapia de apoyo para tus hijos.'
+            },
+            {
+              name: 'Zona 3: ¡Violencia institucional / económica!',
+              minScore: 61,
+              maxScore: 90,
+              description: '¡Protégete legalmente! Uso abusivo del sistema de justicia, retención de documentos o condicionamiento de pensiones.',
+              clinicalApproach: 'Consigue un abogado especializado de inmediato.'
+            },
+            {
+              name: 'Zona 4: ¡Violencia grave!',
+              minScore: 91,
+              maxScore: 120,
+              description: '¡Peligro severo! Sustracción, amenazas de daño e instrumentación física de los menores.',
+              clinicalApproach: 'Es urgente solicitar medidas de protección legales inmediatas.'
+            },
+            {
+              name: 'Zona 5: ¡Violencia extrema!',
+              minScore: 121,
+              maxScore: 150,
+              description: '¡Emergencia Crítica! Secuestro parental, agresiones físicas severas, tortura o riesgo inminente de homicidio.',
+              clinicalApproach: 'Comunícate al 911 de inmediato.'
+            }
+          ]
+        }
+      }
+    });
+    console.log(`Survey created: ${survey.name} with its levels and rules.`);
+  } else {
+    console.log('Paternal survey already exists, skipping creation.');
+  }
 }
 
 main()
